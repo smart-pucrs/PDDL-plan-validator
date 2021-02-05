@@ -503,8 +503,6 @@ final static String yyrule[] = {
 //#line 213 "domain.y"
 
 	private Yylex lexer;
-	private static PDDL pddl; 
-
 	private int yylex () {
 		int yyl_return = -1;
 		try {
@@ -516,13 +514,12 @@ final static String yyrule[] = {
 		}
 		return yyl_return;
 	}
-
 	public Parser(Reader r) {
 		lexer = new Yylex(r, this);
 	}
-
-	static boolean interactive;
-
+	
+	
+	private static PDDL pddl; 
 	public static PDDL parseDomain(String filename){
 		try {
 			Parser yyparser = new Parser(new FileReader(filename));
@@ -534,7 +531,6 @@ final static String yyrule[] = {
 		pddl.domainFile = filename;
 		return pddl;
 	}
-
 	public static void parseProblem(PDDL domain, String filename){
 		pddl = domain; 
 		try {
@@ -546,7 +542,6 @@ final static String yyrule[] = {
 		}
 		pddl.problemFile = filename;
 	}
-
 	public static void parsePlan(PDDL domain, String filename){
 		pddl = domain; 
 		try {
@@ -559,12 +554,7 @@ final static String yyrule[] = {
 		pddl.fixPlanCase();
 		pddl.planFile = filename;
 	}
-
-
-
-	public void yyerror (String error) {
-		System.err.println ("Error: " + error);
-	}
+	
 
 	public static void main(String args[]) throws IOException {
 		pddl = parseDomain("test\\domain.pddl");
@@ -575,25 +565,8 @@ final static String yyrule[] = {
 		System.out.println("__________________________");
 		//pddl.planTest();
 		pddl.valOut("out");
-		/*Parser yyparser;
-		// interactive mode
-		System.out.println("[Quit with CTRL-D]");
-		System.out.print("Expression: ");
-		interactive = true;
-		  yyparser = new Parser(new FileReader("td.pddl"));
-		//yyparser = new Parser(new InputStreamReader(System.in));
-		pddl = new PDDL("TEST");
-		yyparser.yyparse();
-		System.out.println("DONE");
-		  yyparser = new Parser(new FileReader("tp"));
-		yyparser.yyparse();
-		System.out.println("\n\n");
-		pddl.test();
-		if (interactive) {
-		  System.out.println();
-		}*/
 	}
-//#line 525 "Parser.java"
+//#line 498 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -1158,7 +1131,7 @@ case 100:
 //#line 209 "domain.y"
 {yyval.obj = val_peek(1).sval + " " +((String)val_peek(0).obj);}
 break;
-//#line 1085 "Parser.java"
+//#line 1058 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

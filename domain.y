@@ -226,6 +226,9 @@ effObj: OBJ				{$$ = $1;}
 	public Parser(Reader r) {
 		lexer = new Yylex(r, this);
 	}
+	public void yyerror (String error) {
+		System.err.println ("Error: " + error);
+	}
 	
 	
 	private static PDDL pddl; 
