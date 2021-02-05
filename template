@@ -1,0 +1,47 @@
+%% Modified Full length research paper template
+%% Original created by Simon Hengchen and Nilo Pedrazzini for the Journal of Open Humanities Data (https://openhumanitiesdata.metajnl.com)
+%% https://creativecommons.org/licenses/by/4.0/legalcode
+
+\documentclass{article}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{johd}
+
+\title{\textbf{%!name!%}\\Validation Report}
+
+\date{} %leave blank
+
+\begin{document}
+
+\maketitle
+
+\section{Domain}
+\textbf{Domain:}  %!domain!%\\
+\textbf{Problem:} %!problem!%
+
+\subsection{Files}
+\textbf{Domain file:}  %!domainFile!% \\
+\textbf{Problem file:} %!problemFile!%\\
+\textbf{Plan file:}    %!planFile!%
+
+\section{Plan}
+
+\begin{itemize}
+    \item[%!planNum!%.] %!plan!%
+\end{itemize}
+
+\section{Validation}
+
+\begin{itemize}
+\item[%!valNum!%.] %!val!%
+\begin{itemize}
+	\item[\textbullet] %!valP!%
+\end{itemize}
+%!endVal!%
+\end{itemize}
+
+\hline
+\vspace{10pt}
+\large \textbf{%!goalAchieved!%}
+
+\end{document}

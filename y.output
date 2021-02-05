@@ -1,0 +1,2187 @@
+   0  $accept : pddl $end
+
+   1  pddl : '(' DEFINE domN domain ')'
+   2       | '(' DEFINE probN problem ')'
+   3       | plans
+
+   4  string : STRING
+   5         | AND
+   6         | NOT
+   7         | FORALL
+   8         | EXISTS
+   9         | CSTAT
+  10         | DOMAIN
+  11         | PROBLEM
+
+  12  probN : '(' PROBLEM string ')'
+
+  13  problem : '(' PDOMAIN string ')' problem
+  14          | '(' INIT pPreds ')' problem
+  15          | '(' OBJECTS objs ')' problem
+  16          | '(' OBJECTS tObjs ')' problem
+  17          | '(' GOAL goal ')'
+
+  18  goal : '(' string ')'
+  19       | '(' string gObj ')'
+  20       | '(' AND mGoals ')'
+
+  21  mGoals : mGoal
+  22         | '(' NOT mGoal ')'
+  23         | mGoal mGoals
+  24         | '(' NOT mGoal ')' mGoals
+
+  25  mGoal : '(' string ')'
+  26        | '(' string gObj ')'
+
+  27  gObj : string
+  28       | string gObj
+
+  29  objs : string
+  30       | string objs
+
+  31  tObjs : string '-' string
+  32        | string '-' string tObjs
+
+  33  pPreds : '(' string ')'
+  34         | '(' string ')' pPreds
+  35         | '(' string pPredO ')'
+  36         | '(' string pPredO ')' pPreds
+
+  37  pPredO : string
+  38         | string pPredO
+
+  39  plans : plan plans
+  40        |
+
+  41  plan : '(' string ')'
+  42       | '(' string planO ')'
+
+  43  planO : string
+  44        | string planO
+
+  45  domN : '(' DOMAIN string ')'
+
+  46  domain : '(' REQUIREMENTS reqs ')' domain
+  47         | '(' TYPES types ')' domain
+  48         | '(' PREDICATES dPred ')' domain
+  49         | '(' ACTION action ')' domain
+  50         |
+
+  51  reqs : req
+  52       | req reqs
+
+  53  req : REQ
+  54      | CONSTRAINTS
+
+  55  types : string
+  56        | string types
+
+  57  dPred : preds
+
+  58  preds : '(' string ')'
+  59        | '(' string ')' preds
+  60        | '(' string predO ')'
+  61        | '(' string predO ')' preds
+  62        | '(' string predOT ')'
+  63        | '(' string predOT ')' preds
+
+  64  predO : OBJ
+  65        | OBJ predO
+
+  66  predOT : OBJ '-' string
+  67         | OBJ '-' string predOT
+
+  68  action : string PARAMETERS '(' params ')' prec EFFECT eff
+  69         | string PARAMETERS '(' paramsT ')' prec EFFECT eff
+  70         | string prec EFFECT eff
+
+  71  params : OBJ
+  72         | OBJ params
+
+  73  paramsT : OBJ '-' string
+  74          | OBJ '-' string paramsT
+
+  75  prec : PRECONDITION precs
+  76       | PRECONDITION '(' NOT precs ')'
+  77       | PRECONDITION '(' AND mPrecs ')'
+  78       |
+
+  79  mPrecs : precs
+  80         | '(' NOT precs ')'
+  81         | precs mPrecs
+  82         | '(' NOT precs ')' mPrecs
+
+  83  precs : '(' string ')'
+  84        | '(' string preObj ')'
+  85        | '(' '=' preObj ')'
+
+  86  preObj : OBJ
+  87         | OBJ preObj
+
+  88  eff : '(' string ')'
+  89      | '(' string effObj ')'
+  90      | '(' NOT '(' string ')' ')'
+  91      | '(' NOT '(' string effObj ')' ')'
+  92      | '(' AND mEffs ')'
+
+  93  mEffs : mEff
+  94        | '(' NOT mEff ')'
+  95        | mEff mEffs
+  96        | '(' NOT mEff ')' mEffs
+
+  97  mEff : '(' string ')'
+  98       | '(' string effObj ')'
+
+  99  effObj : OBJ
+ 100         | OBJ effObj
+
+state 0
+	$accept : . pddl $end  (0)
+	plans : .  (40)
+
+	'('  shift 1
+	$end  reduce 40
+
+	pddl  goto 2
+	plan  goto 3
+	plans  goto 4
+
+
+state 1
+	pddl : '(' . DEFINE domN domain ')'  (1)
+	pddl : '(' . DEFINE probN problem ')'  (2)
+	plan : '(' . string ')'  (41)
+	plan : '(' . string planO ')'  (42)
+
+	DEFINE  shift 5
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	.  error
+
+	string  goto 14
+
+
+state 2
+	$accept : pddl . $end  (0)
+
+	$end  accept
+
+
+state 3
+	plans : plan . plans  (39)
+	plans : .  (40)
+
+	'('  shift 15
+	$end  reduce 40
+
+	plan  goto 3
+	plans  goto 16
+
+
+state 4
+	pddl : plans .  (3)
+
+	.  reduce 3
+
+
+state 5
+	pddl : '(' DEFINE . domN domain ')'  (1)
+	pddl : '(' DEFINE . probN problem ')'  (2)
+
+	'('  shift 17
+	.  error
+
+	domN  goto 18
+	probN  goto 19
+
+
+state 6
+	string : DOMAIN .  (10)
+
+	.  reduce 10
+
+
+state 7
+	string : PROBLEM .  (11)
+
+	.  reduce 11
+
+
+state 8
+	string : AND .  (5)
+
+	.  reduce 5
+
+
+state 9
+	string : NOT .  (6)
+
+	.  reduce 6
+
+
+state 10
+	string : FORALL .  (7)
+
+	.  reduce 7
+
+
+state 11
+	string : EXISTS .  (8)
+
+	.  reduce 8
+
+
+state 12
+	string : STRING .  (4)
+
+	.  reduce 4
+
+
+state 13
+	string : CSTAT .  (9)
+
+	.  reduce 9
+
+
+state 14
+	plan : '(' string . ')'  (41)
+	plan : '(' string . planO ')'  (42)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	')'  shift 20
+	.  error
+
+	string  goto 21
+	planO  goto 22
+
+
+state 15
+	plan : '(' . string ')'  (41)
+	plan : '(' . string planO ')'  (42)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	.  error
+
+	string  goto 14
+
+
+state 16
+	plans : plan plans .  (39)
+
+	.  reduce 39
+
+
+state 17
+	probN : '(' . PROBLEM string ')'  (12)
+	domN : '(' . DOMAIN string ')'  (45)
+
+	DOMAIN  shift 23
+	PROBLEM  shift 24
+	.  error
+
+
+state 18
+	pddl : '(' DEFINE domN . domain ')'  (1)
+	domain : .  (50)
+
+	'('  shift 25
+	')'  reduce 50
+
+	domain  goto 26
+
+
+state 19
+	pddl : '(' DEFINE probN . problem ')'  (2)
+
+	'('  shift 27
+	.  error
+
+	problem  goto 28
+
+
+state 20
+	plan : '(' string ')' .  (41)
+
+	.  reduce 41
+
+
+state 21
+	planO : string .  (43)
+	planO : string . planO  (44)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	')'  reduce 43
+
+	string  goto 21
+	planO  goto 29
+
+
+state 22
+	plan : '(' string planO . ')'  (42)
+
+	')'  shift 30
+	.  error
+
+
+state 23
+	domN : '(' DOMAIN . string ')'  (45)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	.  error
+
+	string  goto 31
+
+
+state 24
+	probN : '(' PROBLEM . string ')'  (12)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	.  error
+
+	string  goto 32
+
+
+state 25
+	domain : '(' . REQUIREMENTS reqs ')' domain  (46)
+	domain : '(' . TYPES types ')' domain  (47)
+	domain : '(' . PREDICATES dPred ')' domain  (48)
+	domain : '(' . ACTION action ')' domain  (49)
+
+	REQUIREMENTS  shift 33
+	TYPES  shift 34
+	PREDICATES  shift 35
+	ACTION  shift 36
+	.  error
+
+
+state 26
+	pddl : '(' DEFINE domN domain . ')'  (1)
+
+	')'  shift 37
+	.  error
+
+
+state 27
+	problem : '(' . PDOMAIN string ')' problem  (13)
+	problem : '(' . INIT pPreds ')' problem  (14)
+	problem : '(' . OBJECTS objs ')' problem  (15)
+	problem : '(' . OBJECTS tObjs ')' problem  (16)
+	problem : '(' . GOAL goal ')'  (17)
+
+	PDOMAIN  shift 38
+	INIT  shift 39
+	OBJECTS  shift 40
+	GOAL  shift 41
+	.  error
+
+
+state 28
+	pddl : '(' DEFINE probN problem . ')'  (2)
+
+	')'  shift 42
+	.  error
+
+
+state 29
+	planO : string planO .  (44)
+
+	.  reduce 44
+
+
+state 30
+	plan : '(' string planO ')' .  (42)
+
+	.  reduce 42
+
+
+state 31
+	domN : '(' DOMAIN string . ')'  (45)
+
+	')'  shift 43
+	.  error
+
+
+state 32
+	probN : '(' PROBLEM string . ')'  (12)
+
+	')'  shift 44
+	.  error
+
+
+state 33
+	domain : '(' REQUIREMENTS . reqs ')' domain  (46)
+
+	CONSTRAINTS  shift 45
+	REQ  shift 46
+	.  error
+
+	reqs  goto 47
+	req  goto 48
+
+
+state 34
+	domain : '(' TYPES . types ')' domain  (47)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	.  error
+
+	string  goto 49
+	types  goto 50
+
+
+state 35
+	domain : '(' PREDICATES . dPred ')' domain  (48)
+
+	'('  shift 51
+	.  error
+
+	preds  goto 52
+	dPred  goto 53
+
+
+state 36
+	domain : '(' ACTION . action ')' domain  (49)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	.  error
+
+	string  goto 54
+	action  goto 55
+
+
+state 37
+	pddl : '(' DEFINE domN domain ')' .  (1)
+
+	.  reduce 1
+
+
+state 38
+	problem : '(' PDOMAIN . string ')' problem  (13)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	.  error
+
+	string  goto 56
+
+
+state 39
+	problem : '(' INIT . pPreds ')' problem  (14)
+
+	'('  shift 57
+	.  error
+
+	pPreds  goto 58
+
+
+state 40
+	problem : '(' OBJECTS . objs ')' problem  (15)
+	problem : '(' OBJECTS . tObjs ')' problem  (16)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	.  error
+
+	string  goto 59
+	objs  goto 60
+	tObjs  goto 61
+
+
+state 41
+	problem : '(' GOAL . goal ')'  (17)
+
+	'('  shift 62
+	.  error
+
+	goal  goto 63
+
+
+state 42
+	pddl : '(' DEFINE probN problem ')' .  (2)
+
+	.  reduce 2
+
+
+state 43
+	domN : '(' DOMAIN string ')' .  (45)
+
+	.  reduce 45
+
+
+state 44
+	probN : '(' PROBLEM string ')' .  (12)
+
+	.  reduce 12
+
+
+state 45
+	req : CONSTRAINTS .  (54)
+
+	.  reduce 54
+
+
+state 46
+	req : REQ .  (53)
+
+	.  reduce 53
+
+
+state 47
+	domain : '(' REQUIREMENTS reqs . ')' domain  (46)
+
+	')'  shift 64
+	.  error
+
+
+state 48
+	reqs : req .  (51)
+	reqs : req . reqs  (52)
+
+	CONSTRAINTS  shift 45
+	REQ  shift 46
+	')'  reduce 51
+
+	reqs  goto 65
+	req  goto 48
+
+
+state 49
+	types : string .  (55)
+	types : string . types  (56)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	')'  reduce 55
+
+	string  goto 49
+	types  goto 66
+
+
+state 50
+	domain : '(' TYPES types . ')' domain  (47)
+
+	')'  shift 67
+	.  error
+
+
+state 51
+	preds : '(' . string ')'  (58)
+	preds : '(' . string ')' preds  (59)
+	preds : '(' . string predO ')'  (60)
+	preds : '(' . string predO ')' preds  (61)
+	preds : '(' . string predOT ')'  (62)
+	preds : '(' . string predOT ')' preds  (63)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	.  error
+
+	string  goto 68
+
+
+state 52
+	dPred : preds .  (57)
+
+	.  reduce 57
+
+
+state 53
+	domain : '(' PREDICATES dPred . ')' domain  (48)
+
+	')'  shift 69
+	.  error
+
+
+state 54
+	action : string . PARAMETERS '(' params ')' prec EFFECT eff  (68)
+	action : string . PARAMETERS '(' paramsT ')' prec EFFECT eff  (69)
+	action : string . prec EFFECT eff  (70)
+	prec : .  (78)
+
+	PARAMETERS  shift 70
+	PRECONDITION  shift 71
+	EFFECT  reduce 78
+
+	prec  goto 72
+
+
+state 55
+	domain : '(' ACTION action . ')' domain  (49)
+
+	')'  shift 73
+	.  error
+
+
+state 56
+	problem : '(' PDOMAIN string . ')' problem  (13)
+
+	')'  shift 74
+	.  error
+
+
+state 57
+	pPreds : '(' . string ')'  (33)
+	pPreds : '(' . string ')' pPreds  (34)
+	pPreds : '(' . string pPredO ')'  (35)
+	pPreds : '(' . string pPredO ')' pPreds  (36)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	.  error
+
+	string  goto 75
+
+
+state 58
+	problem : '(' INIT pPreds . ')' problem  (14)
+
+	')'  shift 76
+	.  error
+
+
+state 59
+	objs : string .  (29)
+	objs : string . objs  (30)
+	tObjs : string . '-' string  (31)
+	tObjs : string . '-' string tObjs  (32)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	'-'  shift 77
+	')'  reduce 29
+
+	string  goto 78
+	objs  goto 79
+
+
+state 60
+	problem : '(' OBJECTS objs . ')' problem  (15)
+
+	')'  shift 80
+	.  error
+
+
+state 61
+	problem : '(' OBJECTS tObjs . ')' problem  (16)
+
+	')'  shift 81
+	.  error
+
+
+state 62
+	goal : '(' . string ')'  (18)
+	goal : '(' . string gObj ')'  (19)
+	goal : '(' . AND mGoals ')'  (20)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 82
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	.  error
+
+	string  goto 83
+
+
+state 63
+	problem : '(' GOAL goal . ')'  (17)
+
+	')'  shift 84
+	.  error
+
+
+state 64
+	domain : '(' REQUIREMENTS reqs ')' . domain  (46)
+	domain : .  (50)
+
+	'('  shift 25
+	')'  reduce 50
+
+	domain  goto 85
+
+
+state 65
+	reqs : req reqs .  (52)
+
+	.  reduce 52
+
+
+state 66
+	types : string types .  (56)
+
+	.  reduce 56
+
+
+state 67
+	domain : '(' TYPES types ')' . domain  (47)
+	domain : .  (50)
+
+	'('  shift 25
+	')'  reduce 50
+
+	domain  goto 86
+
+
+state 68
+	preds : '(' string . ')'  (58)
+	preds : '(' string . ')' preds  (59)
+	preds : '(' string . predO ')'  (60)
+	preds : '(' string . predO ')' preds  (61)
+	preds : '(' string . predOT ')'  (62)
+	preds : '(' string . predOT ')' preds  (63)
+
+	OBJ  shift 87
+	')'  shift 88
+	.  error
+
+	predO  goto 89
+	predOT  goto 90
+
+
+state 69
+	domain : '(' PREDICATES dPred ')' . domain  (48)
+	domain : .  (50)
+
+	'('  shift 25
+	')'  reduce 50
+
+	domain  goto 91
+
+
+state 70
+	action : string PARAMETERS . '(' params ')' prec EFFECT eff  (68)
+	action : string PARAMETERS . '(' paramsT ')' prec EFFECT eff  (69)
+
+	'('  shift 92
+	.  error
+
+
+state 71
+	prec : PRECONDITION . precs  (75)
+	prec : PRECONDITION . '(' NOT precs ')'  (76)
+	prec : PRECONDITION . '(' AND mPrecs ')'  (77)
+
+	'('  shift 93
+	.  error
+
+	precs  goto 94
+
+
+state 72
+	action : string prec . EFFECT eff  (70)
+
+	EFFECT  shift 95
+	.  error
+
+
+state 73
+	domain : '(' ACTION action ')' . domain  (49)
+	domain : .  (50)
+
+	'('  shift 25
+	')'  reduce 50
+
+	domain  goto 96
+
+
+state 74
+	problem : '(' PDOMAIN string ')' . problem  (13)
+
+	'('  shift 27
+	.  error
+
+	problem  goto 97
+
+
+state 75
+	pPreds : '(' string . ')'  (33)
+	pPreds : '(' string . ')' pPreds  (34)
+	pPreds : '(' string . pPredO ')'  (35)
+	pPreds : '(' string . pPredO ')' pPreds  (36)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	')'  shift 98
+	.  error
+
+	string  goto 99
+	pPredO  goto 100
+
+
+state 76
+	problem : '(' INIT pPreds ')' . problem  (14)
+
+	'('  shift 27
+	.  error
+
+	problem  goto 101
+
+
+state 77
+	tObjs : string '-' . string  (31)
+	tObjs : string '-' . string tObjs  (32)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	.  error
+
+	string  goto 102
+
+
+state 78
+	objs : string .  (29)
+	objs : string . objs  (30)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	')'  reduce 29
+
+	string  goto 78
+	objs  goto 79
+
+
+state 79
+	objs : string objs .  (30)
+
+	.  reduce 30
+
+
+state 80
+	problem : '(' OBJECTS objs ')' . problem  (15)
+
+	'('  shift 27
+	.  error
+
+	problem  goto 103
+
+
+state 81
+	problem : '(' OBJECTS tObjs ')' . problem  (16)
+
+	'('  shift 27
+	.  error
+
+	problem  goto 104
+
+
+state 82
+	string : AND .  (5)
+	goal : '(' AND . mGoals ')'  (20)
+
+	'('  shift 105
+	DOMAIN  reduce 5
+	PROBLEM  reduce 5
+	AND  reduce 5
+	NOT  reduce 5
+	FORALL  reduce 5
+	EXISTS  reduce 5
+	STRING  reduce 5
+	CSTAT  reduce 5
+	')'  reduce 5
+
+	mGoal  goto 106
+	mGoals  goto 107
+
+
+state 83
+	goal : '(' string . ')'  (18)
+	goal : '(' string . gObj ')'  (19)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	')'  shift 108
+	.  error
+
+	string  goto 109
+	gObj  goto 110
+
+
+state 84
+	problem : '(' GOAL goal ')' .  (17)
+
+	.  reduce 17
+
+
+state 85
+	domain : '(' REQUIREMENTS reqs ')' domain .  (46)
+
+	.  reduce 46
+
+
+state 86
+	domain : '(' TYPES types ')' domain .  (47)
+
+	.  reduce 47
+
+
+state 87
+	predO : OBJ .  (64)
+	predO : OBJ . predO  (65)
+	predOT : OBJ . '-' string  (66)
+	predOT : OBJ . '-' string predOT  (67)
+
+	OBJ  shift 111
+	'-'  shift 112
+	')'  reduce 64
+
+	predO  goto 113
+
+
+state 88
+	preds : '(' string ')' .  (58)
+	preds : '(' string ')' . preds  (59)
+
+	'('  shift 51
+	')'  reduce 58
+
+	preds  goto 114
+
+
+state 89
+	preds : '(' string predO . ')'  (60)
+	preds : '(' string predO . ')' preds  (61)
+
+	')'  shift 115
+	.  error
+
+
+state 90
+	preds : '(' string predOT . ')'  (62)
+	preds : '(' string predOT . ')' preds  (63)
+
+	')'  shift 116
+	.  error
+
+
+state 91
+	domain : '(' PREDICATES dPred ')' domain .  (48)
+
+	.  reduce 48
+
+
+state 92
+	action : string PARAMETERS '(' . params ')' prec EFFECT eff  (68)
+	action : string PARAMETERS '(' . paramsT ')' prec EFFECT eff  (69)
+
+	OBJ  shift 117
+	.  error
+
+	params  goto 118
+	paramsT  goto 119
+
+
+state 93
+	prec : PRECONDITION '(' . NOT precs ')'  (76)
+	prec : PRECONDITION '(' . AND mPrecs ')'  (77)
+	precs : '(' . string ')'  (83)
+	precs : '(' . string preObj ')'  (84)
+	precs : '(' . '=' preObj ')'  (85)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 120
+	NOT  shift 121
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	'='  shift 122
+	.  error
+
+	string  goto 123
+
+
+state 94
+	prec : PRECONDITION precs .  (75)
+
+	.  reduce 75
+
+
+state 95
+	action : string prec EFFECT . eff  (70)
+
+	'('  shift 124
+	.  error
+
+	eff  goto 125
+
+
+state 96
+	domain : '(' ACTION action ')' domain .  (49)
+
+	.  reduce 49
+
+
+state 97
+	problem : '(' PDOMAIN string ')' problem .  (13)
+
+	.  reduce 13
+
+
+state 98
+	pPreds : '(' string ')' .  (33)
+	pPreds : '(' string ')' . pPreds  (34)
+
+	'('  shift 57
+	')'  reduce 33
+
+	pPreds  goto 126
+
+
+state 99
+	pPredO : string .  (37)
+	pPredO : string . pPredO  (38)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	')'  reduce 37
+
+	string  goto 99
+	pPredO  goto 127
+
+
+state 100
+	pPreds : '(' string pPredO . ')'  (35)
+	pPreds : '(' string pPredO . ')' pPreds  (36)
+
+	')'  shift 128
+	.  error
+
+
+state 101
+	problem : '(' INIT pPreds ')' problem .  (14)
+
+	.  reduce 14
+
+
+state 102
+	tObjs : string '-' string .  (31)
+	tObjs : string '-' string . tObjs  (32)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	')'  reduce 31
+
+	string  goto 129
+	tObjs  goto 130
+
+
+state 103
+	problem : '(' OBJECTS objs ')' problem .  (15)
+
+	.  reduce 15
+
+
+state 104
+	problem : '(' OBJECTS tObjs ')' problem .  (16)
+
+	.  reduce 16
+
+
+state 105
+	mGoals : '(' . NOT mGoal ')'  (22)
+	mGoals : '(' . NOT mGoal ')' mGoals  (24)
+	mGoal : '(' . string ')'  (25)
+	mGoal : '(' . string gObj ')'  (26)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 131
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	.  error
+
+	string  goto 132
+
+
+state 106
+	mGoals : mGoal .  (21)
+	mGoals : mGoal . mGoals  (23)
+
+	'('  shift 105
+	')'  reduce 21
+
+	mGoal  goto 106
+	mGoals  goto 133
+
+
+state 107
+	goal : '(' AND mGoals . ')'  (20)
+
+	')'  shift 134
+	.  error
+
+
+state 108
+	goal : '(' string ')' .  (18)
+
+	.  reduce 18
+
+
+state 109
+	gObj : string .  (27)
+	gObj : string . gObj  (28)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	')'  reduce 27
+
+	string  goto 109
+	gObj  goto 135
+
+
+state 110
+	goal : '(' string gObj . ')'  (19)
+
+	')'  shift 136
+	.  error
+
+
+state 111
+	predO : OBJ .  (64)
+	predO : OBJ . predO  (65)
+
+	OBJ  shift 111
+	')'  reduce 64
+
+	predO  goto 113
+
+
+state 112
+	predOT : OBJ '-' . string  (66)
+	predOT : OBJ '-' . string predOT  (67)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	.  error
+
+	string  goto 137
+
+
+state 113
+	predO : OBJ predO .  (65)
+
+	.  reduce 65
+
+
+state 114
+	preds : '(' string ')' preds .  (59)
+
+	.  reduce 59
+
+
+state 115
+	preds : '(' string predO ')' .  (60)
+	preds : '(' string predO ')' . preds  (61)
+
+	'('  shift 51
+	')'  reduce 60
+
+	preds  goto 138
+
+
+state 116
+	preds : '(' string predOT ')' .  (62)
+	preds : '(' string predOT ')' . preds  (63)
+
+	'('  shift 51
+	')'  reduce 62
+
+	preds  goto 139
+
+
+state 117
+	params : OBJ .  (71)
+	params : OBJ . params  (72)
+	paramsT : OBJ . '-' string  (73)
+	paramsT : OBJ . '-' string paramsT  (74)
+
+	OBJ  shift 140
+	'-'  shift 141
+	')'  reduce 71
+
+	params  goto 142
+
+
+state 118
+	action : string PARAMETERS '(' params . ')' prec EFFECT eff  (68)
+
+	')'  shift 143
+	.  error
+
+
+state 119
+	action : string PARAMETERS '(' paramsT . ')' prec EFFECT eff  (69)
+
+	')'  shift 144
+	.  error
+
+
+state 120
+	string : AND .  (5)
+	prec : PRECONDITION '(' AND . mPrecs ')'  (77)
+
+	'('  shift 145
+	OBJ  reduce 5
+	')'  reduce 5
+
+	mPrecs  goto 146
+	precs  goto 147
+
+
+state 121
+	string : NOT .  (6)
+	prec : PRECONDITION '(' NOT . precs ')'  (76)
+
+	'('  shift 148
+	OBJ  reduce 6
+	')'  reduce 6
+
+	precs  goto 149
+
+
+state 122
+	precs : '(' '=' . preObj ')'  (85)
+
+	OBJ  shift 150
+	.  error
+
+	preObj  goto 151
+
+
+state 123
+	precs : '(' string . ')'  (83)
+	precs : '(' string . preObj ')'  (84)
+
+	OBJ  shift 150
+	')'  shift 152
+	.  error
+
+	preObj  goto 153
+
+
+state 124
+	eff : '(' . string ')'  (88)
+	eff : '(' . string effObj ')'  (89)
+	eff : '(' . NOT '(' string ')' ')'  (90)
+	eff : '(' . NOT '(' string effObj ')' ')'  (91)
+	eff : '(' . AND mEffs ')'  (92)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 154
+	NOT  shift 155
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	.  error
+
+	string  goto 156
+
+
+state 125
+	action : string prec EFFECT eff .  (70)
+
+	.  reduce 70
+
+
+state 126
+	pPreds : '(' string ')' pPreds .  (34)
+
+	.  reduce 34
+
+
+state 127
+	pPredO : string pPredO .  (38)
+
+	.  reduce 38
+
+
+state 128
+	pPreds : '(' string pPredO ')' .  (35)
+	pPreds : '(' string pPredO ')' . pPreds  (36)
+
+	'('  shift 57
+	')'  reduce 35
+
+	pPreds  goto 157
+
+
+state 129
+	tObjs : string . '-' string  (31)
+	tObjs : string . '-' string tObjs  (32)
+
+	'-'  shift 77
+	.  error
+
+
+state 130
+	tObjs : string '-' string tObjs .  (32)
+
+	.  reduce 32
+
+
+state 131
+	string : NOT .  (6)
+	mGoals : '(' NOT . mGoal ')'  (22)
+	mGoals : '(' NOT . mGoal ')' mGoals  (24)
+
+	'('  shift 158
+	DOMAIN  reduce 6
+	PROBLEM  reduce 6
+	AND  reduce 6
+	NOT  reduce 6
+	FORALL  reduce 6
+	EXISTS  reduce 6
+	STRING  reduce 6
+	CSTAT  reduce 6
+	')'  reduce 6
+
+	mGoal  goto 159
+
+
+state 132
+	mGoal : '(' string . ')'  (25)
+	mGoal : '(' string . gObj ')'  (26)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	')'  shift 160
+	.  error
+
+	string  goto 109
+	gObj  goto 161
+
+
+state 133
+	mGoals : mGoal mGoals .  (23)
+
+	.  reduce 23
+
+
+state 134
+	goal : '(' AND mGoals ')' .  (20)
+
+	.  reduce 20
+
+
+state 135
+	gObj : string gObj .  (28)
+
+	.  reduce 28
+
+
+state 136
+	goal : '(' string gObj ')' .  (19)
+
+	.  reduce 19
+
+
+state 137
+	predOT : OBJ '-' string .  (66)
+	predOT : OBJ '-' string . predOT  (67)
+
+	OBJ  shift 162
+	')'  reduce 66
+
+	predOT  goto 163
+
+
+state 138
+	preds : '(' string predO ')' preds .  (61)
+
+	.  reduce 61
+
+
+state 139
+	preds : '(' string predOT ')' preds .  (63)
+
+	.  reduce 63
+
+
+state 140
+	params : OBJ .  (71)
+	params : OBJ . params  (72)
+
+	OBJ  shift 140
+	')'  reduce 71
+
+	params  goto 142
+
+
+state 141
+	paramsT : OBJ '-' . string  (73)
+	paramsT : OBJ '-' . string paramsT  (74)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	.  error
+
+	string  goto 164
+
+
+state 142
+	params : OBJ params .  (72)
+
+	.  reduce 72
+
+
+state 143
+	action : string PARAMETERS '(' params ')' . prec EFFECT eff  (68)
+	prec : .  (78)
+
+	PRECONDITION  shift 71
+	EFFECT  reduce 78
+
+	prec  goto 165
+
+
+state 144
+	action : string PARAMETERS '(' paramsT ')' . prec EFFECT eff  (69)
+	prec : .  (78)
+
+	PRECONDITION  shift 71
+	EFFECT  reduce 78
+
+	prec  goto 166
+
+
+state 145
+	mPrecs : '(' . NOT precs ')'  (80)
+	mPrecs : '(' . NOT precs ')' mPrecs  (82)
+	precs : '(' . string ')'  (83)
+	precs : '(' . string preObj ')'  (84)
+	precs : '(' . '=' preObj ')'  (85)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 167
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	'='  shift 122
+	.  error
+
+	string  goto 123
+
+
+state 146
+	prec : PRECONDITION '(' AND mPrecs . ')'  (77)
+
+	')'  shift 168
+	.  error
+
+
+state 147
+	mPrecs : precs .  (79)
+	mPrecs : precs . mPrecs  (81)
+
+	'('  shift 145
+	')'  reduce 79
+
+	mPrecs  goto 169
+	precs  goto 147
+
+
+state 148
+	precs : '(' . string ')'  (83)
+	precs : '(' . string preObj ')'  (84)
+	precs : '(' . '=' preObj ')'  (85)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	'='  shift 122
+	.  error
+
+	string  goto 123
+
+
+state 149
+	prec : PRECONDITION '(' NOT precs . ')'  (76)
+
+	')'  shift 170
+	.  error
+
+
+state 150
+	preObj : OBJ .  (86)
+	preObj : OBJ . preObj  (87)
+
+	OBJ  shift 150
+	')'  reduce 86
+
+	preObj  goto 171
+
+
+state 151
+	precs : '(' '=' preObj . ')'  (85)
+
+	')'  shift 172
+	.  error
+
+
+state 152
+	precs : '(' string ')' .  (83)
+
+	.  reduce 83
+
+
+state 153
+	precs : '(' string preObj . ')'  (84)
+
+	')'  shift 173
+	.  error
+
+
+state 154
+	string : AND .  (5)
+	eff : '(' AND . mEffs ')'  (92)
+
+	'('  shift 174
+	OBJ  reduce 5
+	')'  reduce 5
+
+	mEffs  goto 175
+	mEff  goto 176
+
+
+state 155
+	string : NOT .  (6)
+	eff : '(' NOT . '(' string ')' ')'  (90)
+	eff : '(' NOT . '(' string effObj ')' ')'  (91)
+
+	'('  shift 177
+	OBJ  reduce 6
+	')'  reduce 6
+
+
+state 156
+	eff : '(' string . ')'  (88)
+	eff : '(' string . effObj ')'  (89)
+
+	OBJ  shift 178
+	')'  shift 179
+	.  error
+
+	effObj  goto 180
+
+
+state 157
+	pPreds : '(' string pPredO ')' pPreds .  (36)
+
+	.  reduce 36
+
+
+state 158
+	mGoal : '(' . string ')'  (25)
+	mGoal : '(' . string gObj ')'  (26)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	.  error
+
+	string  goto 132
+
+
+state 159
+	mGoals : '(' NOT mGoal . ')'  (22)
+	mGoals : '(' NOT mGoal . ')' mGoals  (24)
+
+	')'  shift 181
+	.  error
+
+
+state 160
+	mGoal : '(' string ')' .  (25)
+
+	.  reduce 25
+
+
+state 161
+	mGoal : '(' string gObj . ')'  (26)
+
+	')'  shift 182
+	.  error
+
+
+state 162
+	predOT : OBJ . '-' string  (66)
+	predOT : OBJ . '-' string predOT  (67)
+
+	'-'  shift 112
+	.  error
+
+
+state 163
+	predOT : OBJ '-' string predOT .  (67)
+
+	.  reduce 67
+
+
+state 164
+	paramsT : OBJ '-' string .  (73)
+	paramsT : OBJ '-' string . paramsT  (74)
+
+	OBJ  shift 183
+	')'  reduce 73
+
+	paramsT  goto 184
+
+
+state 165
+	action : string PARAMETERS '(' params ')' prec . EFFECT eff  (68)
+
+	EFFECT  shift 185
+	.  error
+
+
+state 166
+	action : string PARAMETERS '(' paramsT ')' prec . EFFECT eff  (69)
+
+	EFFECT  shift 186
+	.  error
+
+
+state 167
+	string : NOT .  (6)
+	mPrecs : '(' NOT . precs ')'  (80)
+	mPrecs : '(' NOT . precs ')' mPrecs  (82)
+
+	'('  shift 148
+	OBJ  reduce 6
+	')'  reduce 6
+
+	precs  goto 187
+
+
+state 168
+	prec : PRECONDITION '(' AND mPrecs ')' .  (77)
+
+	.  reduce 77
+
+
+state 169
+	mPrecs : precs mPrecs .  (81)
+
+	.  reduce 81
+
+
+state 170
+	prec : PRECONDITION '(' NOT precs ')' .  (76)
+
+	.  reduce 76
+
+
+state 171
+	preObj : OBJ preObj .  (87)
+
+	.  reduce 87
+
+
+state 172
+	precs : '(' '=' preObj ')' .  (85)
+
+	.  reduce 85
+
+
+state 173
+	precs : '(' string preObj ')' .  (84)
+
+	.  reduce 84
+
+
+state 174
+	mEffs : '(' . NOT mEff ')'  (94)
+	mEffs : '(' . NOT mEff ')' mEffs  (96)
+	mEff : '(' . string ')'  (97)
+	mEff : '(' . string effObj ')'  (98)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 188
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	.  error
+
+	string  goto 189
+
+
+state 175
+	eff : '(' AND mEffs . ')'  (92)
+
+	')'  shift 190
+	.  error
+
+
+state 176
+	mEffs : mEff .  (93)
+	mEffs : mEff . mEffs  (95)
+
+	'('  shift 174
+	')'  reduce 93
+
+	mEffs  goto 191
+	mEff  goto 176
+
+
+state 177
+	eff : '(' NOT '(' . string ')' ')'  (90)
+	eff : '(' NOT '(' . string effObj ')' ')'  (91)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	.  error
+
+	string  goto 192
+
+
+state 178
+	effObj : OBJ .  (99)
+	effObj : OBJ . effObj  (100)
+
+	OBJ  shift 178
+	')'  reduce 99
+
+	effObj  goto 193
+
+
+state 179
+	eff : '(' string ')' .  (88)
+
+	.  reduce 88
+
+
+state 180
+	eff : '(' string effObj . ')'  (89)
+
+	')'  shift 194
+	.  error
+
+
+state 181
+	mGoals : '(' NOT mGoal ')' .  (22)
+	mGoals : '(' NOT mGoal ')' . mGoals  (24)
+
+	'('  shift 105
+	')'  reduce 22
+
+	mGoal  goto 106
+	mGoals  goto 195
+
+
+state 182
+	mGoal : '(' string gObj ')' .  (26)
+
+	.  reduce 26
+
+
+state 183
+	paramsT : OBJ . '-' string  (73)
+	paramsT : OBJ . '-' string paramsT  (74)
+
+	'-'  shift 141
+	.  error
+
+
+state 184
+	paramsT : OBJ '-' string paramsT .  (74)
+
+	.  reduce 74
+
+
+state 185
+	action : string PARAMETERS '(' params ')' prec EFFECT . eff  (68)
+
+	'('  shift 124
+	.  error
+
+	eff  goto 196
+
+
+state 186
+	action : string PARAMETERS '(' paramsT ')' prec EFFECT . eff  (69)
+
+	'('  shift 124
+	.  error
+
+	eff  goto 197
+
+
+state 187
+	mPrecs : '(' NOT precs . ')'  (80)
+	mPrecs : '(' NOT precs . ')' mPrecs  (82)
+
+	')'  shift 198
+	.  error
+
+
+state 188
+	string : NOT .  (6)
+	mEffs : '(' NOT . mEff ')'  (94)
+	mEffs : '(' NOT . mEff ')' mEffs  (96)
+
+	'('  shift 199
+	OBJ  reduce 6
+	')'  reduce 6
+
+	mEff  goto 200
+
+
+state 189
+	mEff : '(' string . ')'  (97)
+	mEff : '(' string . effObj ')'  (98)
+
+	OBJ  shift 178
+	')'  shift 201
+	.  error
+
+	effObj  goto 202
+
+
+state 190
+	eff : '(' AND mEffs ')' .  (92)
+
+	.  reduce 92
+
+
+state 191
+	mEffs : mEff mEffs .  (95)
+
+	.  reduce 95
+
+
+state 192
+	eff : '(' NOT '(' string . ')' ')'  (90)
+	eff : '(' NOT '(' string . effObj ')' ')'  (91)
+
+	OBJ  shift 178
+	')'  shift 203
+	.  error
+
+	effObj  goto 204
+
+
+state 193
+	effObj : OBJ effObj .  (100)
+
+	.  reduce 100
+
+
+state 194
+	eff : '(' string effObj ')' .  (89)
+
+	.  reduce 89
+
+
+state 195
+	mGoals : '(' NOT mGoal ')' mGoals .  (24)
+
+	.  reduce 24
+
+
+state 196
+	action : string PARAMETERS '(' params ')' prec EFFECT eff .  (68)
+
+	.  reduce 68
+
+
+state 197
+	action : string PARAMETERS '(' paramsT ')' prec EFFECT eff .  (69)
+
+	.  reduce 69
+
+
+state 198
+	mPrecs : '(' NOT precs ')' .  (80)
+	mPrecs : '(' NOT precs ')' . mPrecs  (82)
+
+	'('  shift 145
+	')'  reduce 80
+
+	mPrecs  goto 205
+	precs  goto 147
+
+
+state 199
+	mEff : '(' . string ')'  (97)
+	mEff : '(' . string effObj ')'  (98)
+
+	DOMAIN  shift 6
+	PROBLEM  shift 7
+	AND  shift 8
+	NOT  shift 9
+	FORALL  shift 10
+	EXISTS  shift 11
+	STRING  shift 12
+	CSTAT  shift 13
+	.  error
+
+	string  goto 189
+
+
+state 200
+	mEffs : '(' NOT mEff . ')'  (94)
+	mEffs : '(' NOT mEff . ')' mEffs  (96)
+
+	')'  shift 206
+	.  error
+
+
+state 201
+	mEff : '(' string ')' .  (97)
+
+	.  reduce 97
+
+
+state 202
+	mEff : '(' string effObj . ')'  (98)
+
+	')'  shift 207
+	.  error
+
+
+state 203
+	eff : '(' NOT '(' string ')' . ')'  (90)
+
+	')'  shift 208
+	.  error
+
+
+state 204
+	eff : '(' NOT '(' string effObj . ')' ')'  (91)
+
+	')'  shift 209
+	.  error
+
+
+state 205
+	mPrecs : '(' NOT precs ')' mPrecs .  (82)
+
+	.  reduce 82
+
+
+state 206
+	mEffs : '(' NOT mEff ')' .  (94)
+	mEffs : '(' NOT mEff ')' . mEffs  (96)
+
+	'('  shift 174
+	')'  reduce 94
+
+	mEffs  goto 210
+	mEff  goto 176
+
+
+state 207
+	mEff : '(' string effObj ')' .  (98)
+
+	.  reduce 98
+
+
+state 208
+	eff : '(' NOT '(' string ')' ')' .  (90)
+
+	.  reduce 90
+
+
+state 209
+	eff : '(' NOT '(' string effObj ')' . ')'  (91)
+
+	')'  shift 211
+	.  error
+
+
+state 210
+	mEffs : '(' NOT mEff ')' mEffs .  (96)
+
+	.  reduce 96
+
+
+state 211
+	eff : '(' NOT '(' string effObj ')' ')' .  (91)
+
+	.  reduce 91
+
+
+29 terminals, 36 nonterminals
+101 grammar rules, 212 states
