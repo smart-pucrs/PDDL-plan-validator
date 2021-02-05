@@ -1,6 +1,6 @@
 # PDDL-plan-validator
 
-# Compilação 
+## Compilação 
 
 O programa já vem com todos os arquivos java necessários para a compilação sem a necessidade de programas adicionais. 
 - Modificações ao arquivo Parser.java devem ser feitas no arquivo domain.y, gerando um arquivo .java novo com o uso do programa Yacc com o parametro "-J". 
@@ -8,54 +8,54 @@ O programa já vem com todos os arquivos java necessários para a compilação s
 
 
 
-# Arquivos
+## Arquivos
 
-## Parser.java
+### Parser.java ______________
 Parser de PDDL. 
-### void main(String args[])
+#### void main(String args[])
   Função de teste. 
   Processa o problema e plano localizados na pasta /test, imprime o dominio para o console, e gera um arquivo latex "out" com o output. 
   O output pode ser gerado para o console trocando a linha "pddl.valOut("out");" por "pddl.planTest();" e recompilando o arquivo.
-### PDDL parseDomain(String filename)
+#### PDDL parseDomain(String filename)
   Processa o arquivo de domínio pddl "filename" e retorna um objecto PDDL.
-### void parseProblem(PDDL domain, String filename)
+#### void parseProblem(PDDL domain, String filename)
   Processa o arquivo de problema pddl "filename" e configura o problema no pddl "domain". 
   Requer um pddl com domínio já configurado. Problemas inválidos ou de domínios diferentes podem gerar erros. 
-### void parsePlan(PDDL domain, String filename)
+#### void parsePlan(PDDL domain, String filename)
   Processa o arquivo de plano pddl "filename" e configura o plano no pddl "domain".
 
-## PDDL.java
+### PDDL.java ______________
 Objetos de pddl. 
-### boolean goalAchieved()
+#### boolean goalAchieved()
   Verifica se o goal foi completo.
-### void fixPlanCase()
+#### void fixPlanCase()
   Arruma erros de letras maiusculas/minusculas no plano.
-### Object[] tryPlan()
+#### Object[] tryPlan()
   Tenta aplicar o plano, retorna um objeto com o resultado.
   * Null -------------------> O plano não teve nenhum erro.
   * [Ação | Null] ----------> Erro nos parâmetros da ação. 
   * [Ação | [List | List]] -> Ação não aplicável, retorna a lista de predicados positivos não presentes e uma lista de predicados negativos presentes.
-### void planTest()
+#### void planTest()
   Testa o plano e imprime o resultado para o console. 
-### void valOut(String outN)
+#### void valOut(String outN)
   Gera um arquivo latex "outN" a partir do do arquivo template "String template" (por padrão é um arquivo sem extensão template). Por padrão esse arquivo contém o nome do problema e domínio, os arquivos, e o resultado do plano.
-### void printTest()
+#### void printTest()
   Imprime o domínio para o console.
-### PrintTest2()
+#### void PrintTest2()
   Imprime o problema e plano para o console.
-### test()
+#### void test()
   Imprime o estado atual.
-  
-## domain.flex
+
+### domain.flex ______________
 Arquivo lexer/scanner Jflex.
 
-## domain.y
+### domain.y _________________
 Arquivo parser, especifica a gramática. 
 
-## out
+### out ______________________
 Exemplo de resultado latex. 
 
-## Template
+### Template _________________
 Arquivo de template, usado para o output latex. 
 Lista de palavras que são substituidas
   * %!name!% ---------> Nome do programa
@@ -64,15 +64,14 @@ Lista de palavras que são substituidas
 	* %!domainFile!% ---> Arquivo de domínio
 	* %!problemFile!% --> Arquivo de problema
 	* %!planFile!% -----> Arquivo de plano
-  
+
 	* %!plan!% ---------> Repete a linha e substitui por cada ação do plano
 	* %!planNum!% ------> Numero da ação atual, deve estar na mesma linha
-  
+
 	* %!val!% ----------> Repete até o endval para cada ação aplicada, substitui o val por cada ação
 	* %!valNum!% -------> Número da ação, deve estar na mesma linha
 	* %!valP!% ---------> Resultado (erros, predicados aplicados), repete para cada erro/predicado 
 	* %!endVal!% -------> Demarca o fim, a linha é ignorada 
-  
+
 	* %!goalAchieved!% -> String se o objetivo foi atingido
-  
 
