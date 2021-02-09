@@ -281,6 +281,6 @@ effObj: OBJ				{$$ = $1;}
 		parsePlan(pddl, "test\\plan.pddl");
 		//pddl.PrintTest2();
 		System.out.println("__________________________");
-		//pddl.valOut("out");
-		pddl.planTest();
+		pddl.valOut("out");
+		//pddl.planTest();
 	}
