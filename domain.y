@@ -13,7 +13,7 @@
 
 %type <obj> pddl, string
 //problem
-%type <obj> mGoal, gObj, objs, tObjs, pPreds, pPredO
+%type <obj> mGoal, gObj, objs, tObjs, pPreds, pPredO, strings
 //plan 
 %type <obj> plan, plans, planO
 //domain
@@ -106,6 +106,7 @@ domN:	'(' DOMAIN string ')'	{pddl = new PDDL((String)$3);}
 
 domain: 	 '(' REQUIREMENTS reqs ')' domain 	{}
 		| '(' TYPES types ')' domain 			{}
+		| '(' TYPES sTypes ')' domain 			{}
 		| '(' PREDICATES dPred ')' domain 		{}
 		| '(' ACTION action ')' domain			{}
 		| 										{}	
@@ -122,10 +123,15 @@ req:	REQ 			{$$ = $1;}
 
 
 /* TYPES */
-//TODO subtypes 
-types: 	string				{pddl.addType((String)$1);}
-		| string types 		{pddl.addType((String)$1);}
-		;
+types: 	 string				{pddl.addType((String)$1);}
+		 | string types 		{pddl.addType((String)$1);}
+		 ;
+sTypes:   strings '-' string			{pddl.addType(((String)$1).split(" "), (String)$3);}
+		 | strings '-' string sTypes 	{pddl.addType(((String)$1).split(" "), (String)$3);}
+		 ;
+strings: string				{$$ = $1;}
+		 | string strings	{$$ = (String)$1 + " " + (String)$2;}
+		 ;
 
 		
 /* PREDICATES */
@@ -275,6 +281,6 @@ effObj: OBJ				{$$ = $1;}
 		parsePlan(pddl, "test\\plan.pddl");
 		//pddl.PrintTest2();
 		System.out.println("__________________________");
-		//pddl.planTest();
-		pddl.valOut("out");
+		//pddl.valOut("out");
+		pddl.planTest();
 	}

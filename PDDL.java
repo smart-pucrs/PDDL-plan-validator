@@ -16,6 +16,7 @@ public class PDDL{
 	private List<String> reqs;		//pddl requirements 
 	private boolean[] rFlags;		//pddl requirement flags
 	public List<String> types;		//types
+	public List<Integer> subTypes;	//subtypes -> types 
 	private List<Pred> preds;		//predicate name -> predicate object map
 	private Map<String, Act> acts;	//action name -> action object map
 	
@@ -24,6 +25,7 @@ public class PDDL{
 		this.domain = domain;
 		reqs = new ArrayList<String>();
 		types = new ArrayList<String>();
+		subTypes = new ArrayList<Integer>();
 		acts = new HashMap<String, Act>();
 		rFlags = new boolean[2];	//equality, typed
 	}	
@@ -40,6 +42,16 @@ public class PDDL{
 	}	
 	public void addType(String type){
 		types.add(type);
+	}
+	public void addType(String[] sTypes, String type){
+		if(!types.contains(type)){
+			types.add(type);
+			subTypes.add(-1);
+		}
+		for(String t : sTypes){
+			types.add(t);
+			subTypes.add(types.indexOf(type));
+		}
 	}
 	
 	public int getTypeId(String type){
@@ -184,10 +196,10 @@ public class PDDL{
 		if(rFlags[1]){
 			for(int i = 0; i < pars.length; i++) parTs[i] = objectTs[objects.indexOf(pars[i])];
 		}
-		if(!act.applicable(state, pars, parTs, rFlags)){
+		if(!act.applicable(state, pars, parTs, subTypes, rFlags)){
 			Object[] error = new Object[2];
 			error[0] = next;
-			error[1] = act.reason(state, pars, parTs, rFlags);
+			error[1] = act.reason(state, pars, parTs, subTypes, rFlags);
 			return error;					
 		}else{
 			state = act.apply(state, pars);
@@ -263,8 +275,8 @@ public class PDDL{
 							if(rFlags[1]){
 								for(int i = 0; i < pars.length; i++) parTs[i] = objectTs[objects.indexOf(pars[i])];
 							}
-							if(!act.applicable(state, pars, parTs, rFlags)){
-								Object[] error = act.reason(state, pars, parTs, rFlags);		
+							if(!act.applicable(state, pars, parTs, subTypes, rFlags)){
+								Object[] error = act.reason(state, pars, parTs, subTypes, rFlags);		
 								if(error.length == 0){
 									out.write(valP[0] + "Invalid parameters" + valP[1] + "\n" + suf + "\n");
 								}else{
@@ -380,6 +392,9 @@ public class PDDL{
 		for(String r : reqs)System.out.println("\t" + r);
 		System.out.println("types");
 		for(String t : types)System.out.println("\t" + t);
+		if(subTypes.size() > 0){
+			for(int i = 0; i < subTypes.size(); i++) if(subTypes.get(i) >= 0) System.out.println("\t"+types.get(i) + " = " + types.get(subTypes.get(i)));
+		}
 		System.out.println("Actions");
 		for(Map.Entry<String,Act> a : acts.entrySet()) System.out.println("\t" + a.getValue() + "\n");
 		System.out.println("predicates");
@@ -523,9 +538,9 @@ class Act{
 	}
 	
 	//returns false preconditions
-	public Object[] reason(List<String[]> worldState, String[] parameters, int[] types, boolean[] rFlags){		
+	public Object[] reason(List<String[]> worldState, String[] parameters, int[] types, List<Integer> sTypes, boolean[] rFlags){		
 		if(parameters.length != pars.size()) return new Object[0];
-		for(int i = 0; i < types.length; i++) if(types[i] != parTs[i]) return new Object[0];
+		for(int i = 0; i < types.length; i++) if(types[i] != parTs[i] && sTypes.get(i) != parTs[i]) return new Object[0];
 		if(rFlags[0]){
 			return reason1(worldState, parameters);
 		}
@@ -720,9 +735,9 @@ class Act{
 	}
 		
 	
-	public boolean applicable(List<String[]> worldState, String[] parameters, int[] types, boolean[] rFlags){
+	public boolean applicable(List<String[]> worldState, String[] parameters, int[] types, List<Integer> sTypes, boolean[] rFlags){
 		if(parameters.length != pars.size()) return false;
-		if(rFlags[1]) for(int i = 0; i < types.length; i++) if(types[i] != parTs[i]) return false;
+		if(rFlags[1]) for(int i = 0; i < types.length; i++) if(types[i] != parTs[i] && sTypes.get(i) != parTs[i]) return false;
 		if(rFlags[0]){
 			return applicable1(worldState, parameters, types);
 		}

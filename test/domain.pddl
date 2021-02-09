@@ -2,10 +2,10 @@
 	(:requirements :strips :equality :typing)
 
 	(:types
-		paciente
-		leito
-		tipoDeEncaminhamento
-		genero
+		paciente - p
+		leito - l
+		tipoDeEncaminhamento - t
+		genero - t
 	)
 
 	(:predicates 
@@ -50,7 +50,7 @@
 	)
 
 	(:action aloc-Oncologia 
-		:parameters (?paciente - paciente ?leito - leito ?genero-paciente - genero ?genero-leito - genero)
+		:parameters (?paciente - paciente ?leito - leito ?genero-paciente - t ?genero-leito - genero)
 		:precondition (and (not (alocado ?paciente))
 			(not (ocupado ?leito))
 			(= ?genero-paciente ?genero-leito))
