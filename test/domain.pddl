@@ -1,4 +1,4 @@
-(define (domain hospital)
+(define  (domain hospital)
 	(:requirements :strips :equality :typing)
 
 	(:types
@@ -77,4 +77,4 @@
 			(ocupado ?leito)
 			(alocado ?paciente))
 	)
-)
+)asd

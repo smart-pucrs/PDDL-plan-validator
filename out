@@ -35,8 +35,6 @@
     \item[6.] (\textbf{aloc-Neurologia} 23266656502 113b genero--Masculino genero--Masculino)
     \item[7.] (\textbf{aloc-Cardiologia} 32323233232 114a genero--Masculino genero--Masculino)
     \item[8.] (\textbf{aloc-Neurologia} 32135131355 115b genero--Feminino genero--Feminino)
-    \item[9.] (\textbf{aloc-Cardiologia} 23102103133 116b genero--Feminino genero--Feminino)
-    \item[10.] (\textbf{aloc-Oncologia} 54532513216 117e genero--Feminino genero--Feminino)
 \end{itemize}
 
 \section{Validation}
@@ -90,22 +88,10 @@
 	\item[\textbullet] +(\textit{ocupado} 115b)
 	\item[\textbullet] +(\textit{in} 32135131355 115b)
 \end{itemize}
-\item[9.] (\textbf{aloc-Cardiologia} 23102103133 116b genero--Feminino genero--Feminino)
-\begin{itemize}
-	\item[\textbullet] +(\textit{alocado} 23102103133)
-	\item[\textbullet] +(\textit{ocupado} 116b)
-	\item[\textbullet] +(\textit{in} 23102103133 116b)
-\end{itemize}
-\item[10.] (\textbf{aloc-Oncologia} 54532513216 117e genero--Feminino genero--Feminino)
-\begin{itemize}
-	\item[\textbullet] +(\textit{alocado} 54532513216)
-	\item[\textbullet] +(\textit{ocupado} 117e)
-	\item[\textbullet] +(\textit{in} 54532513216 117e)
-\end{itemize}
 \end{itemize}
 
 \hline
 \vspace{10pt}
-\large \textbf{Goal achieved}
+\large \textbf{Goal not achieved}
 
 \end{document}

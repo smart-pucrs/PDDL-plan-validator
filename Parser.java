@@ -16,7 +16,7 @@
 
 
 
-//#line 2 "domain.y"
+//#line 3 "domain.y"
 	import java.util.ArrayList;
 	import java.util.List;
   import java.io.*;
@@ -545,7 +545,7 @@ final static String yyrule[] = {
 "effObj : OBJ effObj",
 };
 
-//#line 219 "domain.y"
+//#line 220 "domain.y"
 
 	private Yylex lexer;
 	private int yylex () {
@@ -563,13 +563,16 @@ final static String yyrule[] = {
 		lexer = new Yylex(r, this);
 	}
 	public void yyerror (String error) {
-		System.err.println ("Error: " + error);
+		System.err.println ("Error: " + error + "\nin file " + file + " line " + String.valueOf(Yylex.lineCount));
 	}
 	
 	
 	private static PDDL pddl; 
+	private static String file;
 	public static PDDL parseDomain(String filename){
+		file = filename;
 		try {
+			Yylex.reset();
 			Parser yyparser = new Parser(new FileReader(filename));
 			yyparser.yyparse();
 		}
@@ -582,6 +585,7 @@ final static String yyrule[] = {
 	public static void parseProblem(PDDL domain, String filename){
 		pddl = domain; 
 		try {
+			Yylex.reset();
 			Parser yyparser = new Parser(new FileReader(filename));
 			yyparser.yyparse();
 		}
@@ -593,6 +597,7 @@ final static String yyrule[] = {
 	public static void parsePlan(PDDL domain, String filename){
 		pddl = domain; 
 		try {
+			Yylex.reset();
 			Parser yyparser = new Parser(new FileReader(filename));
 			yyparser.yyparse();
 		}
@@ -611,10 +616,10 @@ final static String yyrule[] = {
 		parsePlan(pddl, "test\\plan.pddl");
 		//pddl.PrintTest2();
 		System.out.println("__________________________");
-		//pddl.valOut("out");
-		pddl.planTest();
+		pddl.valOut("out");
+		//pddl.planTest();
 	}
-//#line 546 "Parser.java"
+//#line 551 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -769,437 +774,437 @@ boolean doaction;
       {
 //########## USER-SUPPLIED ACTIONS ##########
 case 1:
-//#line 24 "domain.y"
-{}
-break;
-case 2:
 //#line 25 "domain.y"
 {}
 break;
-case 3:
+case 2:
 //#line 26 "domain.y"
 {}
 break;
+case 3:
+//#line 27 "domain.y"
+{}
+break;
 case 4:
-//#line 29 "domain.y"
+//#line 30 "domain.y"
 {yyval.obj = val_peek(0).sval;}
 break;
 case 5:
-//#line 30 "domain.y"
+//#line 31 "domain.y"
 {yyval.obj = "and";}
 break;
 case 6:
-//#line 31 "domain.y"
+//#line 32 "domain.y"
 {yyval.obj = "not";}
 break;
 case 7:
-//#line 32 "domain.y"
+//#line 33 "domain.y"
 {yyval.obj = "forall";}
 break;
 case 8:
-//#line 33 "domain.y"
+//#line 34 "domain.y"
 {yyval.obj = "exists";}
 break;
 case 9:
-//#line 34 "domain.y"
+//#line 35 "domain.y"
 {yyval.obj = val_peek(0).sval;}
 break;
 case 10:
-//#line 35 "domain.y"
+//#line 36 "domain.y"
 {yyval.obj = "domain";}
 break;
 case 11:
-//#line 36 "domain.y"
+//#line 37 "domain.y"
 {yyval.obj = "problem";}
 break;
 case 12:
-//#line 43 "domain.y"
+//#line 44 "domain.y"
 {pddl.problem((String)val_peek(1).obj);}
 break;
 case 13:
-//#line 46 "domain.y"
+//#line 47 "domain.y"
 {pddl.pDomain((String)val_peek(2).obj);}
 break;
 case 14:
-//#line 47 "domain.y"
+//#line 48 "domain.y"
 {pddl.iniState((ArrayList<String[]>)val_peek(2).obj);}
 break;
 case 15:
-//#line 48 "domain.y"
+//#line 49 "domain.y"
 {pddl.addObjs((List<String>)val_peek(2).obj);}
 break;
 case 16:
-//#line 49 "domain.y"
+//#line 50 "domain.y"
 {pddl.addObjs((List)((Object[])val_peek(2).obj)[0], (List)((Object[])val_peek(2).obj)[1]);}
 break;
 case 17:
-//#line 50 "domain.y"
+//#line 51 "domain.y"
 {}
 break;
 case 18:
-//#line 54 "domain.y"
+//#line 55 "domain.y"
 {String[] aux = new String[1]; aux[0] = (String)val_peek(1).obj; pddl.addPosGoal(aux);}
 break;
 case 19:
-//#line 55 "domain.y"
+//#line 56 "domain.y"
 {pddl.addPosGoal(((String)val_peek(2).obj + " " + ((String)val_peek(1).obj)).split(" "));}
 break;
 case 20:
-//#line 56 "domain.y"
+//#line 57 "domain.y"
 {}
 break;
 case 21:
-//#line 58 "domain.y"
+//#line 59 "domain.y"
 {pddl.addPosGoal((String[])val_peek(0).obj);}
 break;
 case 22:
-//#line 59 "domain.y"
+//#line 60 "domain.y"
 {pddl.addNegGoal((String[])val_peek(1).obj);}
 break;
 case 23:
-//#line 60 "domain.y"
+//#line 61 "domain.y"
 {pddl.addPosGoal((String[])val_peek(1).obj);}
 break;
 case 24:
-//#line 61 "domain.y"
+//#line 62 "domain.y"
 {pddl.addNegGoal((String[])val_peek(2).obj);}
 break;
 case 25:
-//#line 63 "domain.y"
+//#line 64 "domain.y"
 {yyval.obj = new String[1]; ((String[])yyval.obj)[0] = (String)val_peek(1).obj;}
 break;
 case 26:
-//#line 64 "domain.y"
+//#line 65 "domain.y"
 {yyval.obj = ((String)val_peek(2).obj + " " + ((String)val_peek(1).obj)).split(" ");}
 break;
 case 27:
-//#line 66 "domain.y"
+//#line 67 "domain.y"
 {yyval.obj = val_peek(0).obj;}
 break;
 case 28:
-//#line 67 "domain.y"
+//#line 68 "domain.y"
 {yyval.obj = val_peek(1).obj + " " +((String)val_peek(0).obj);}
 break;
 case 29:
-//#line 71 "domain.y"
+//#line 72 "domain.y"
 {yyval.obj = new ArrayList<String>(); ((List)yyval.obj).add(val_peek(0).obj);}
 break;
 case 30:
-//#line 72 "domain.y"
+//#line 73 "domain.y"
 {yyval.obj = val_peek(0).obj; ((List)yyval.obj).add(val_peek(1).obj);}
 break;
 case 31:
-//#line 75 "domain.y"
+//#line 76 "domain.y"
 {yyval.obj = new Object[2]; ((Object[])yyval.obj)[0] = new ArrayList<String>(); ((Object[])yyval.obj)[1] = new ArrayList<String>(); ((List)((Object[])yyval.obj)[0]).add(val_peek(2).obj); ((List)((Object[])yyval.obj)[1]).add(val_peek(0).obj);}
 break;
 case 32:
-//#line 76 "domain.y"
+//#line 77 "domain.y"
 {yyval.obj = val_peek(0).obj; ((List)((Object[])yyval.obj)[0]).add(val_peek(3).obj); ((List)((Object[])yyval.obj)[1]).add(val_peek(1).obj);}
 break;
 case 33:
-//#line 79 "domain.y"
+//#line 80 "domain.y"
 {yyval.obj = new ArrayList<String[]>(); String[] aux = new String[1]; aux[0] = (String)val_peek(1).obj; ((ArrayList)yyval.obj).add(aux);}
 break;
 case 34:
-//#line 80 "domain.y"
+//#line 81 "domain.y"
 {String[] aux = new String[1]; aux[0] = (String)val_peek(2).obj; yyval.obj = val_peek(0).obj; ((ArrayList)yyval.obj).add(aux);}
 break;
 case 35:
-//#line 81 "domain.y"
+//#line 82 "domain.y"
 {yyval.obj = new ArrayList<String[]>();  ((ArrayList)yyval.obj).add((val_peek(2).obj + " " + (String)val_peek(1).obj).split(" "));}
 break;
 case 36:
-//#line 82 "domain.y"
+//#line 83 "domain.y"
 {yyval.obj = val_peek(0).obj; ((ArrayList)yyval.obj).add((val_peek(3).obj + " " + (String)val_peek(2).obj).split(" "));}
 break;
 case 37:
-//#line 84 "domain.y"
+//#line 85 "domain.y"
 {yyval.obj = val_peek(0).obj;}
 break;
 case 38:
-//#line 85 "domain.y"
+//#line 86 "domain.y"
 {yyval.obj = val_peek(1).obj + " " + (String)val_peek(0).obj;}
 break;
 case 39:
-//#line 91 "domain.y"
-{}
-break;
-case 40:
 //#line 92 "domain.y"
 {}
 break;
+case 40:
+//#line 93 "domain.y"
+{}
+break;
 case 41:
-//#line 94 "domain.y"
+//#line 95 "domain.y"
 {String[] aux = new String[1]; aux[0] = (String)val_peek(1).obj; pddl.addPAct(aux);}
 break;
 case 42:
-//#line 95 "domain.y"
+//#line 96 "domain.y"
 {pddl.addPAct((val_peek(2).obj + " " + val_peek(1).obj).split(" "));}
 break;
 case 43:
-//#line 97 "domain.y"
+//#line 98 "domain.y"
 {yyval.obj = val_peek(0).obj;}
 break;
 case 44:
-//#line 98 "domain.y"
+//#line 99 "domain.y"
 {yyval.obj = val_peek(1).obj + " " + (String)val_peek(0).obj;}
 break;
 case 45:
-//#line 105 "domain.y"
+//#line 106 "domain.y"
 {pddl = new PDDL((String)val_peek(1).obj);}
 break;
 case 46:
-//#line 107 "domain.y"
-{}
-break;
-case 47:
 //#line 108 "domain.y"
 {}
 break;
-case 48:
+case 47:
 //#line 109 "domain.y"
 {}
 break;
-case 49:
+case 48:
 //#line 110 "domain.y"
 {}
 break;
-case 50:
+case 49:
 //#line 111 "domain.y"
 {}
 break;
-case 51:
+case 50:
 //#line 112 "domain.y"
 {}
 break;
+case 51:
+//#line 113 "domain.y"
+{}
+break;
 case 52:
-//#line 117 "domain.y"
+//#line 118 "domain.y"
 {pddl.addReq((String)val_peek(0).obj);}
 break;
 case 53:
-//#line 118 "domain.y"
+//#line 119 "domain.y"
 {pddl.addReq((String)val_peek(1).obj);}
 break;
 case 54:
-//#line 120 "domain.y"
+//#line 121 "domain.y"
 {yyval.obj = val_peek(0).sval;}
 break;
 case 55:
-//#line 121 "domain.y"
+//#line 122 "domain.y"
 {yyval.obj = ":constraints";}
 break;
 case 56:
-//#line 126 "domain.y"
+//#line 127 "domain.y"
 {pddl.addType((String)val_peek(0).obj);}
 break;
 case 57:
-//#line 127 "domain.y"
+//#line 128 "domain.y"
 {pddl.addType((String)val_peek(1).obj);}
 break;
 case 58:
-//#line 129 "domain.y"
+//#line 130 "domain.y"
 {pddl.addType(((String)val_peek(2).obj).split(" "), (String)val_peek(0).obj);}
 break;
 case 59:
-//#line 130 "domain.y"
+//#line 131 "domain.y"
 {pddl.addType(((String)val_peek(3).obj).split(" "), (String)val_peek(1).obj);}
 break;
 case 60:
-//#line 132 "domain.y"
+//#line 133 "domain.y"
 {yyval.obj = val_peek(0).obj;}
 break;
 case 61:
-//#line 133 "domain.y"
+//#line 134 "domain.y"
 {yyval.obj = (String)val_peek(1).obj + " " + (String)val_peek(0).obj;}
 break;
 case 62:
-//#line 138 "domain.y"
+//#line 139 "domain.y"
 {pddl.addPredicates((ArrayList<Pred>)val_peek(0).obj);}
 break;
 case 63:
-//#line 140 "domain.y"
+//#line 141 "domain.y"
 {yyval.obj = new ArrayList<Pred>(); ((ArrayList)yyval.obj).add(new Pred((String)val_peek(1).obj));}
 break;
 case 64:
-//#line 141 "domain.y"
+//#line 142 "domain.y"
 {yyval.obj = val_peek(0).obj; ((ArrayList)yyval.obj).add(new Pred((String)val_peek(2).obj));}
 break;
 case 65:
-//#line 142 "domain.y"
+//#line 143 "domain.y"
 {yyval.obj = new ArrayList<Pred>(); ((ArrayList)yyval.obj).add(new Pred((String)val_peek(2).obj, (ArrayList<String>)val_peek(1).obj));}
 break;
 case 66:
-//#line 143 "domain.y"
+//#line 144 "domain.y"
 {yyval.obj = val_peek(0).obj; ((ArrayList)yyval.obj).add(new Pred((String)val_peek(3).obj, (ArrayList<String>)val_peek(2).obj));}
 break;
 case 67:
-//#line 144 "domain.y"
+//#line 145 "domain.y"
 {yyval.obj = new ArrayList<Pred>(); ((ArrayList)yyval.obj).add(new Pred((String)val_peek(2).obj, (ArrayList<String>)((ArrayList[])val_peek(1).obj)[0],(ArrayList<Integer>)((ArrayList[])val_peek(1).obj)[1]));}
 break;
 case 68:
-//#line 145 "domain.y"
+//#line 146 "domain.y"
 {yyval.obj = val_peek(0).obj; ((ArrayList)yyval.obj).add(new Pred((String)val_peek(3).obj, (ArrayList<String>)((ArrayList[])val_peek(2).obj)[0],(ArrayList<Integer>)((ArrayList[])val_peek(2).obj)[1]));}
 break;
 case 69:
-//#line 149 "domain.y"
+//#line 150 "domain.y"
 {yyval.obj = new ArrayList<String>(); ((ArrayList)yyval.obj).add(val_peek(0).sval);}
 break;
 case 70:
-//#line 150 "domain.y"
+//#line 151 "domain.y"
 {yyval.obj = val_peek(0).obj; ((ArrayList<String>)val_peek(0).obj).add(val_peek(1).sval);}
 break;
 case 71:
-//#line 152 "domain.y"
+//#line 153 "domain.y"
 {yyval.obj = new ArrayList[2]; ((ArrayList[])yyval.obj)[0] = new ArrayList<String>(); ((ArrayList[])yyval.obj)[1] = new ArrayList<Integer>(); ((ArrayList[])yyval.obj)[0].add(val_peek(2).sval);
 								((ArrayList[])yyval.obj)[1].add(new Integer(pddl.getTypeId((String)val_peek(0).obj)));}
 break;
 case 72:
-//#line 154 "domain.y"
+//#line 155 "domain.y"
 {yyval.obj = val_peek(0).obj; ((ArrayList[])yyval.obj)[0].add(val_peek(3).sval); ((ArrayList[])yyval.obj)[1].add(new Integer(pddl.getTypeId((String)val_peek(1).obj)));}
 break;
 case 73:
-//#line 159 "domain.y"
+//#line 160 "domain.y"
 {pddl.addAction(new Act((String)val_peek(7).obj,(ArrayList<String>)val_peek(4).obj, (ArrayList<String[]>)((Object[])val_peek(2).obj)[0],
 																			(ArrayList<String[]>)((Object[])val_peek(2).obj)[1], (ArrayList<String[]>)((Object[])val_peek(0).obj)[0], (ArrayList<String[]>)((Object[])val_peek(0).obj)[1]));}
 break;
 case 74:
-//#line 161 "domain.y"
+//#line 162 "domain.y"
 {pddl.addAction(new Act((String)val_peek(7).obj, (ArrayList<String>)((Object[])val_peek(4).obj)[0], (ArrayList<String>)((Object[])val_peek(4).obj)[1], 
 																			(ArrayList<String[]>)((Object[])val_peek(2).obj)[0], (ArrayList<String[]>)((Object[])val_peek(2).obj)[1], (ArrayList<String[]>)((Object[])val_peek(0).obj)[0],
 																			(ArrayList<String[]>)((Object[])val_peek(0).obj)[1], pddl.types));}
 break;
 case 75:
-//#line 164 "domain.y"
+//#line 165 "domain.y"
 {pddl.addAction(new Act((String)val_peek(3).obj, new ArrayList<String>(), (ArrayList<String[]>)((Object[])val_peek(2).obj)[0],
 																			(ArrayList<String[]>)((Object[])val_peek(2).obj)[1], (ArrayList<String[]>)((Object[])val_peek(0).obj)[0], (ArrayList<String[]>)((Object[])val_peek(0).obj)[1]));}
 break;
 case 76:
-//#line 167 "domain.y"
+//#line 168 "domain.y"
 {yyval.obj = new ArrayList<String>(); ((ArrayList)yyval.obj).add(val_peek(0).sval);}
 break;
 case 77:
-//#line 168 "domain.y"
+//#line 169 "domain.y"
 {yyval.obj = val_peek(0).obj; ((ArrayList)yyval.obj).add(0,val_peek(1).sval);}
 break;
 case 78:
-//#line 170 "domain.y"
+//#line 171 "domain.y"
 {yyval.obj = new Object[2]; ((Object[])yyval.obj)[0] = new ArrayList<String>(); ((Object[])yyval.obj)[1] = new ArrayList<String>(); ((ArrayList)((Object[])yyval.obj)[0]).add(val_peek(2).sval); ((ArrayList)((Object[])yyval.obj)[1]).add(val_peek(0).obj);}
 break;
 case 79:
-//#line 171 "domain.y"
+//#line 172 "domain.y"
 {yyval.obj = val_peek(0).obj	; ((ArrayList)((Object[])yyval.obj)[0]).add(0,val_peek(3).sval); ((ArrayList)((Object[])yyval.obj)[1]).add(0,val_peek(1).obj);}
 break;
 case 80:
-//#line 175 "domain.y"
+//#line 176 "domain.y"
 {yyval.obj = new Object[2]; ((Object[])yyval.obj)[0] = new ArrayList<String[]>(); ((Object[])yyval.obj)[1] = new ArrayList<String[]>(); ((ArrayList<String[]>)((Object[])yyval.obj)[0]).add((String[])val_peek(0).obj);}
 break;
 case 81:
-//#line 176 "domain.y"
+//#line 177 "domain.y"
 {yyval.obj = new Object[2]; ((Object[])yyval.obj)[0] = new ArrayList<String[]>(); ((Object[])yyval.obj)[1] = new ArrayList<String[]>(); ((ArrayList<String[]>)((Object[])yyval.obj)[1]).add((String[])val_peek(1).obj);}
 break;
 case 82:
-//#line 177 "domain.y"
+//#line 178 "domain.y"
 {yyval.obj = val_peek(1).obj;}
 break;
 case 83:
-//#line 178 "domain.y"
+//#line 179 "domain.y"
 {yyval.obj = new Object[2]; ((Object[])yyval.obj)[0] = new ArrayList<String[]>(); ((Object[])yyval.obj)[1] = new ArrayList<String[]>();}
 break;
 case 84:
-//#line 180 "domain.y"
+//#line 181 "domain.y"
 {yyval.obj = new Object[2]; ((Object[])yyval.obj)[0] = new ArrayList<String[]>(); ((Object[])yyval.obj)[1] = new ArrayList<String[]>(); ((ArrayList<String[]>)((Object[])yyval.obj)[0]).add((String[])val_peek(0).obj);}
 break;
 case 85:
-//#line 181 "domain.y"
+//#line 182 "domain.y"
 {yyval.obj = new Object[2]; ((Object[])yyval.obj)[0] = new ArrayList<String[]>(); ((Object[])yyval.obj)[1] = new ArrayList<String[]>(); ((ArrayList<String[]>)((Object[])yyval.obj)[1]).add((String[])val_peek(1).obj);}
 break;
 case 86:
-//#line 182 "domain.y"
+//#line 183 "domain.y"
 {yyval.obj = val_peek(0).obj; ((ArrayList<String[]>)((Object[])val_peek(0).obj)[0]).add((String[])val_peek(1).obj);}
 break;
 case 87:
-//#line 183 "domain.y"
+//#line 184 "domain.y"
 {yyval.obj = val_peek(0).obj; ((ArrayList<String[]>)((Object[])val_peek(0).obj)[1]).add((String[])val_peek(2).obj);}
 break;
 case 88:
-//#line 185 "domain.y"
+//#line 186 "domain.y"
 {yyval.obj = new String[1]; ((String[])yyval.obj)[0] = (String)val_peek(1).obj;}
 break;
 case 89:
-//#line 186 "domain.y"
+//#line 187 "domain.y"
 {yyval.obj = (val_peek(2).obj + " " + (String)val_peek(1).obj).split(" ");}
 break;
 case 90:
-//#line 187 "domain.y"
+//#line 188 "domain.y"
 {yyval.obj = ("= " + (String)val_peek(1).obj).split(" ");}
 break;
 case 91:
-//#line 189 "domain.y"
+//#line 190 "domain.y"
 {yyval.obj = val_peek(0).sval;}
 break;
 case 92:
-//#line 190 "domain.y"
+//#line 191 "domain.y"
 {yyval.obj = val_peek(1).sval + " " + ((String)val_peek(0).obj);}
 break;
 case 93:
-//#line 194 "domain.y"
+//#line 195 "domain.y"
 {String[] aux = new String[1]; aux[0] = (String)val_peek(1).obj; yyval.obj = new Object[2]; ((Object[])yyval.obj)[0] = new ArrayList<String[]>(); 
 											((ArrayList<String[]>)((Object[])yyval.obj)[0]).add(aux); ((Object[])yyval.obj)[1] = new ArrayList<String[]>();}
 break;
 case 94:
-//#line 196 "domain.y"
+//#line 197 "domain.y"
 {String[] aux = ((String)val_peek(2).obj + " " + ((String)val_peek(1).obj)).split(" "); yyval.obj = new Object[2]; ((Object[])yyval.obj)[0] = new ArrayList<String[]>(); 
 											((ArrayList<String[]>)((Object[])yyval.obj)[0]).add(aux); ((Object[])yyval.obj)[1] = new ArrayList<String[]>();}
 break;
 case 95:
-//#line 198 "domain.y"
+//#line 199 "domain.y"
 {String[] aux = new String[1]; aux[0] = (String)val_peek(2).obj; yyval.obj = new Object[2]; ((Object[])yyval.obj)[0] = new ArrayList<String[]>(); 
 											((Object[])yyval.obj)[1] = new ArrayList<String[]>(); ((ArrayList<String[]>)((Object[])yyval.obj)[1]).add(aux);}
 break;
 case 96:
-//#line 200 "domain.y"
+//#line 201 "domain.y"
 {String[] aux = ((String)val_peek(3).obj + " " + ((String)val_peek(2).obj)).split(" "); yyval.obj = new Object[2]; ((Object[])yyval.obj)[0] = new ArrayList<String[]>(); 
 											((Object[])yyval.obj)[1] = new ArrayList<String[]>(); ((ArrayList<String[]>)((Object[])yyval.obj)[1]).add(aux);}
 break;
 case 97:
-//#line 202 "domain.y"
+//#line 203 "domain.y"
 {yyval.obj = val_peek(1).obj;}
 break;
 case 98:
-//#line 204 "domain.y"
+//#line 205 "domain.y"
 {yyval.obj = new Object[2]; ((Object[])yyval.obj)[0] = new ArrayList<String[]>(); ((ArrayList<String[]>)((Object[])yyval.obj)[0]).add((String[])val_peek(0).obj);
 									((Object[])yyval.obj)[1] = new ArrayList<String[]>();}
 break;
 case 99:
-//#line 206 "domain.y"
+//#line 207 "domain.y"
 {yyval.obj = new Object[2]; ((Object[])yyval.obj)[0] = new ArrayList<String[]>(); ((Object[])yyval.obj)[1] = new ArrayList<String[]>();
 									((ArrayList<String[]>)((Object[])yyval.obj)[1]).add((String[])val_peek(1).obj);}
 break;
 case 100:
-//#line 208 "domain.y"
+//#line 209 "domain.y"
 {yyval.obj = val_peek(0).obj; ((ArrayList<String[]>)((Object[])val_peek(0).obj)[0]).add((String[])val_peek(1).obj);}
 break;
 case 101:
-//#line 209 "domain.y"
+//#line 210 "domain.y"
 {yyval.obj = val_peek(0).obj; ((ArrayList<String[]>)((Object[])val_peek(0).obj)[1]).add((String[])val_peek(2).obj);}
 break;
 case 102:
-//#line 211 "domain.y"
+//#line 212 "domain.y"
 {yyval.obj = new String[1]; ((String[])yyval.obj)[0] = (String)val_peek(1).obj;}
 break;
 case 103:
-//#line 212 "domain.y"
+//#line 213 "domain.y"
 {yyval.obj = ((String)val_peek(2).obj + " " + ((String)val_peek(1).obj)).split(" ");}
 break;
 case 104:
-//#line 214 "domain.y"
+//#line 215 "domain.y"
 {yyval.obj = val_peek(0).sval;}
 break;
 case 105:
-//#line 215 "domain.y"
+//#line 216 "domain.y"
 {yyval.obj = val_peek(1).sval + " " +((String)val_peek(0).obj);}
 break;
-//#line 1126 "Parser.java"
+//#line 1131 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

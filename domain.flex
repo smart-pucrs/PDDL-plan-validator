@@ -8,6 +8,11 @@
 
 %{
   private Parser yyparser;
+  public static int lineCount = 1;
+  
+  public static void reset(){
+	lineCount = 1;
+  }
 
   public Yylex(java.io.Reader r, Parser yyparser) {
     this(r);
@@ -75,4 +80,5 @@ problem 	{return Parser.PROBLEM;}
 {str}  			{yyparser.yylval = new ParserVal(yytext());
 				 return Parser.STRING;}
 {comment}		{}
-[ \t\r\n]+		{}
+[ \t\r]+		{}
+\n				{lineCount++;}

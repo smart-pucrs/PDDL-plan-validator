@@ -1,3 +1,4 @@
+
 %{
 	import java.util.ArrayList;
 	import java.util.List;
@@ -233,13 +234,16 @@ effObj: OBJ				{$$ = $1;}
 		lexer = new Yylex(r, this);
 	}
 	public void yyerror (String error) {
-		System.err.println ("Error: " + error);
+		System.err.println ("Error: " + error + "\nin file " + file + " line " + String.valueOf(Yylex.lineCount));
 	}
 	
 	
 	private static PDDL pddl; 
+	private static String file;
 	public static PDDL parseDomain(String filename){
+		file = filename;
 		try {
+			Yylex.reset();
 			Parser yyparser = new Parser(new FileReader(filename));
 			yyparser.yyparse();
 		}
@@ -252,6 +256,7 @@ effObj: OBJ				{$$ = $1;}
 	public static void parseProblem(PDDL domain, String filename){
 		pddl = domain; 
 		try {
+			Yylex.reset();
 			Parser yyparser = new Parser(new FileReader(filename));
 			yyparser.yyparse();
 		}
@@ -263,6 +268,7 @@ effObj: OBJ				{$$ = $1;}
 	public static void parsePlan(PDDL domain, String filename){
 		pddl = domain; 
 		try {
+			Yylex.reset();
 			Parser yyparser = new Parser(new FileReader(filename));
 			yyparser.yyparse();
 		}
