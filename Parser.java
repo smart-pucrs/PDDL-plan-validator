@@ -583,6 +583,7 @@ final static String yyrule[] = {
 		return pddl;
 	}
 	public static void parseProblem(PDDL domain, String filename){
+		file = filename;
 		pddl = domain; 
 		try {
 			Yylex.reset();
@@ -595,6 +596,7 @@ final static String yyrule[] = {
 		pddl.problemFile = filename;
 	}
 	public static void parsePlan(PDDL domain, String filename){
+		file = filename;
 		pddl = domain; 
 		try {
 			Yylex.reset();
@@ -619,7 +621,7 @@ final static String yyrule[] = {
 		pddl.valOut("out");
 		//pddl.planTest();
 	}
-//#line 551 "Parser.java"
+//#line 553 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -1204,7 +1206,7 @@ case 105:
 //#line 216 "domain.y"
 {yyval.obj = val_peek(1).sval + " " +((String)val_peek(0).obj);}
 break;
-//#line 1131 "Parser.java"
+//#line 1133 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

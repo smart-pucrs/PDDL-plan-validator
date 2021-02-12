@@ -77,4 +77,4 @@
 			(ocupado ?leito)
 			(alocado ?paciente))
 	)
-)asd
+)

@@ -254,6 +254,7 @@ effObj: OBJ				{$$ = $1;}
 		return pddl;
 	}
 	public static void parseProblem(PDDL domain, String filename){
+		file = filename;
 		pddl = domain; 
 		try {
 			Yylex.reset();
@@ -266,6 +267,7 @@ effObj: OBJ				{$$ = $1;}
 		pddl.problemFile = filename;
 	}
 	public static void parsePlan(PDDL domain, String filename){
+		file = filename;
 		pddl = domain; 
 		try {
 			Yylex.reset();
