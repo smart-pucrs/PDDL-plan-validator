@@ -616,12 +616,14 @@ final static String yyrule[] = {
 		pddl.printTest();
 		parseProblem(pddl, "test\\problem.pddl");
 		parsePlan(pddl, "test\\plan.pddl");
-		//pddl.PrintTest2();
-		System.out.println("__________________________");
-		pddl.valOut("out");
-		//pddl.planTest();
+		if(!pddl.checkA()){
+			//pddl.PrintTest2();
+			System.out.println("__________________________");
+			pddl.valOut("out");
+			//pddl.planTest();
+		}
 	}
-//#line 553 "Parser.java"
+//#line 555 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -1206,7 +1208,7 @@ case 105:
 //#line 216 "domain.y"
 {yyval.obj = val_peek(1).sval + " " +((String)val_peek(0).obj);}
 break;
-//#line 1133 "Parser.java"
+//#line 1135 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

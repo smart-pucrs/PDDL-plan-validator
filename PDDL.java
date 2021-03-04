@@ -351,6 +351,88 @@ public class PDDL{
 	/****************************************************
 	* 			//
 	****************************************************/	
+	public boolean checkA(){
+		boolean err = false;
+		//no domain
+		if(domain == null){
+			System.err.println("Error no domain");
+			return true;
+		}
+		boolean strips = false;
+		for(String req : reqs){
+			switch(req){	
+				case ":strips":
+					strips = true;
+					break;
+				case ":equality":
+					break;
+				case ":typing":
+					break;
+				default:
+					err = true;
+					System.err.println("Error requirement " + req + " not implemented");
+					break;
+			}
+		}
+		//no :strips
+		if(!strips) {
+			System.err.println("Error :strips is required");
+		}
+		//typing
+		if(rFlags[1]){
+			if(types.size() == 0) System.err.println("Warning no types declared");
+			//for 
+		}
+		if(preds.size() == 0) System.err.println("Warning no predicates declared");
+		if(acts.size() == 0) System.err.println("Warning no actions declared");
+		if(err) return true;
+		//no problem
+		if(problem == null){
+			System.err.println("Error no problem");
+			return true;
+		}
+		for(String[] str : state){
+			Pred p = null;
+			for(Pred aux : preds) if(aux.name.equals(str[0])){
+				p = aux;
+				break;
+			}
+			if(p == null){
+				System.err.println("Error no predicate " + str[0]);
+				err = true;
+			}
+			if(str.length-1 != p.type.length){
+				System.err.println("Error invalid parameters for predicate " + str[0]);
+				err = true;
+			}
+			//typed
+			if(rFlags[1]){
+				for(int i = 0; i < str.length-1; i++){
+					int type = objectTs[objects.indexOf(str[i+1])];
+					if(p.type[i] != type){
+						if(subTypes.size() > 0) if(p.type[i] != subTypes.get(type)){
+							System.err.println("Error action " + str[0] + " requires type " + types.get(p.type[i]) + ", found " + str[i+1] + " - " + types.get(type));
+						}
+					}
+				}
+			}
+		}
+		if(err) return true;
+		//no plan
+		if(planFile == null){
+			System.err.println("Error no plan");
+			return true;
+		}
+		for(String[] p : plan) if(!acts.containsKey(p[0])){
+			System.err.println("Error invalid action " + p[0]);
+			err = true;
+		}
+		for(String[] p : plan) for(int i = 1; i < p.length; i++) if(!objects.contains(p[i])){
+			System.err.println("Error invalid object " + p[i]);
+			err = true;
+		}
+		return err;
+	}
 	
 	
 	public void planTest(){

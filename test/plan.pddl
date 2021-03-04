@@ -1,10 +1,9 @@
-(aloc-Oncologia 34345454354 100a genero--Masculino genero--Masculino)
 (aloc-Oncologia 93092302930 100c genero--Masculino genero--Masculino)
 (aloc-Oncologia 09090909091 100b genero--Masculino genero--Masculino)
 (aloc-Medicina-Interna 23433454353 112a genero--Feminino genero--Feminino)
 (aloc-Medicina-Interna 34343434324 112d genero--Feminino genero--Feminino)
 (aloc-Neurologia 23266656502 113b genero--Masculino genero--Masculino)
 (aloc-Cardiologia 32323233232 114a genero--Masculino genero--Masculino)
-(aloc-Neurologia 32135131355 115b genero--Feminino genero--Feminino)asd
+(aloc-Neurologia 32135131355 115b genero--Feminino genero--Feminino)
 (aloc-Cardiologia 23102103133 116b genero--Feminino genero--Feminino)
 (aloc-Oncologia 54532513216 117e genero--Feminino genero--Feminino)

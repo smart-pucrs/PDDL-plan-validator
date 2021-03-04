@@ -287,8 +287,10 @@ effObj: OBJ				{$$ = $1;}
 		pddl.printTest();
 		parseProblem(pddl, "test\\problem.pddl");
 		parsePlan(pddl, "test\\plan.pddl");
-		//pddl.PrintTest2();
-		System.out.println("__________________________");
-		pddl.valOut("out");
-		//pddl.planTest();
+		if(!pddl.checkA()){
+			//pddl.PrintTest2();
+			System.out.println("__________________________");
+			pddl.valOut("out");
+			//pddl.planTest();
+		}
 	}
