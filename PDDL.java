@@ -355,7 +355,7 @@ public class PDDL{
 		boolean err = false;
 		//no domain
 		if(domain == null){
-			System.err.println("Error no domain");
+			System.err.println("Error no domain file");
 			return true;
 		}
 		boolean strips = false;
@@ -388,7 +388,7 @@ public class PDDL{
 		if(err) return true;
 		//no problem
 		if(problem == null){
-			System.err.println("Error no problem");
+			System.err.println("Error no problem file");
 			return true;
 		}
 		for(String[] str : state){
@@ -398,17 +398,25 @@ public class PDDL{
 				break;
 			}
 			if(p == null){
-				System.err.println("Error no predicate " + str[0]);
+				System.err.println("Error invalid predicate " + str[0]);
 				err = true;
 			}
 			if(str.length-1 != p.type.length){
-				System.err.println("Error invalid parameters for predicate " + str[0]);
+				System.err.print("Error invalid parameters for predicate " + str[0] + " in ( ");
+				for(String s : str) System.err.print(s + " ");
+				System.err.println(")");
 				err = true;
 			}
 			//typed
 			if(rFlags[1]){
 				for(int i = 0; i < str.length-1; i++){
-					int type = objectTs[objects.indexOf(str[i+1])];
+					int aux = objects.indexOf(str[i+1]);
+					if(aux == -1){
+						System.err.println("Error invalid object " + str[i+1]);
+						err = true;
+						continue;
+					}
+					int type = objectTs[aux];
 					if(p.type[i] != type){
 						if(subTypes.size() > 0) if(p.type[i] != subTypes.get(type)){
 							System.err.println("Error action " + str[0] + " requires type " + types.get(p.type[i]) + ", found " + str[i+1] + " - " + types.get(type));
@@ -420,16 +428,52 @@ public class PDDL{
 		if(err) return true;
 		//no plan
 		if(planFile == null){
-			System.err.println("Error no plan");
+			System.err.println("Error no plan file");
 			return true;
 		}
-		for(String[] p : plan) if(!acts.containsKey(p[0])){
-			System.err.println("Error invalid action " + p[0]);
-			err = true;
-		}
-		for(String[] p : plan) for(int i = 1; i < p.length; i++) if(!objects.contains(p[i])){
-			System.err.println("Error invalid object " + p[i]);
-			err = true;
+		//typed
+		if(rFlags[1]){
+			for(String[] p : plan) {
+				Act a = acts.get(p[0]);
+				if(a == null){
+					System.err.println("Error invalid action " + p[0]);
+					err = true;
+					continue;
+				}
+				if(p.length-1 != a.parTs.length){
+					System.err.print("Error invalid parameters for actions " + p[0] + " in ( ");
+					for(String s : p) System.err.print(s + " ");
+					System.err.println(")");
+					err = true;
+				}else{
+					for(int i = 1; i < p.length; i++){
+						int aux = objects.indexOf(p[i]);
+						if(aux == -1){
+							System.err.println("Error invalid object " + p[i]);
+							err = true;
+							continue;
+						}
+						int type = objectTs[aux];
+						if(a.parTs[i-1] != type){
+							if(subTypes.size() > 0) if(a.parTs[i-1] != subTypes.get(type)){
+								System.err.println("Error action " + p[0] + " requires type " + types.get(a.parTs[i-1]) + ", found " + p[i] + " - " + types.get(type));
+							}
+						}
+					}
+				}
+			}
+		}else{			
+			for(String[] p : plan) {
+				if(!acts.containsKey(p[0])){
+					System.err.println("Error invalid action " + p[0]);
+					err = true;
+					continue;
+				}
+				for(int i = 1; i < p.length; i++) if(!objects.contains(p[i])){
+					System.err.println("Error invalid object " + p[i]);
+					err = true;
+				}
+			}
 		}
 		return err;
 	}
