@@ -5,7 +5,9 @@
 /**
  *	Domain Parser
  */
- 
+
+package PARSER; 
+
 
 // See https://github.com/jflex-de/jflex/issues/222
 @SuppressWarnings("FallThrough")

@@ -1,9 +1,10 @@
 /**
  *	Domain Parser
  */
- 
-%%
 
+package PARSER; 
+
+%%
 %byaccj
 
 %{

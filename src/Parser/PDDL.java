@@ -1,3 +1,5 @@
+package PARSER;
+
 //java
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +11,11 @@ import java.io.FileWriter;
 import java.io.File;
 
 public class PDDL{	
+	
+
+	public boolean bt(){
+		return true;
+	}
 	/****************************************************
 	* 			DOMAIN
 	****************************************************/

@@ -1,1 +1,0 @@
-del *.class && cls && yacc -J -tv domain.y && javac Parser.java
