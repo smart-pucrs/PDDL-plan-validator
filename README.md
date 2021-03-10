@@ -25,4 +25,4 @@ Java PDDL parser/validator
 
 Para os demais usos é necessário a implementação das funções internas em um novo programa. 
 
-### [Guia rápido](https://github.com/smart-pucrs/PDDL-plan-validator/wiki/aux)
+### [Guia rápido](https://github.com/smart-pucrs/PDDL-plan-validator/wiki/Guia-R%C3%A1pido)
