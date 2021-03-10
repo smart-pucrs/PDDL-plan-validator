@@ -6,9 +6,9 @@ Java PDDL parser/validator
 - ## Com Gradle 
 
   O programa já vem com todos os arquivos java necessários para a compilação sem a necessidade de programas adicionais. 
-  * 'gradle build' - Compila os arquivos java e roda os testes. 
-  * 'gradle run'   - Executa a função de demonstração localizada no arquivo Parser.
-  * 'gradle test'  - Roda os testes sem recompilar o programa. 
+  * `gradle build` - Compila os arquivos java e roda os testes. 
+  * `gradle run`   - Executa a função de demonstração localizada no arquivo Parser.
+  * `gradle test`  - Roda os testes sem recompilar o programa. 
 
 
 - ## Sem Gradle 
