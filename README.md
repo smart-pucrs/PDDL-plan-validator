@@ -1,28 +1,28 @@
 # PDDL-plan-validator
-Java PDDL parser/validator
+Java PDDL parser/validator [[PT-BR]](https://github.com/smart-pucrs/PDDL-plan-validator/wiki/Home-pt-br)
 
-## Compilação 
+## Compiling  
 
-- ## Com Gradle 
+- ## Using Gradle 
 
-  O programa já vem com todos os arquivos java necessários para a compilação sem a necessidade de programas adicionais. 
-  * `gradle build` - Compila os arquivos java e roda os testes. 
-  * `gradle run`   - Executa a função de demonstração localizada no arquivo Parser.
-  * `gradle test`  - Roda os testes sem recompilar o programa. 
+  The program already comes with the Java files required to compile the program and doesn't require any additional software. 
+  * `gradle build` - Compiles the program and runs the tests. 
+  * `gradle run`   - Runs the demo function from the Parser.java file. 
+  * `gradle test`  - Runs the tests without recompiling the program. 
 
 
-- ## Sem Gradle 
+- ## Using Javac
 
-  Os arquivos na pasta /src/Parser podem ser compilados diretamente com o comando 'Javac'. Não é necessario nenhuma dependência além do próprio Java 8 para compilar o programa sem os testes. 
+  The files in the /src/Parser folders can be directly compiled with the "Javac" command. There are no extra dependencies required to compile and run the program without the tests. 
  
-  Para o uso da função de demonstração é necessário a presença de certos arquivos dentro do diretório de execução, o que pode ser resolvido simplesmente movendo o arquivo "template" e a pasta "test" para a mesma pasta dos arquivos .class. 
+  To run the demo function the program requires certain files with a hardcoded path. The easiest way to solve this issue is to move the file "template" and the folder "test" to the folder with the compiled .class files. 
  
-## Uso 
+## Usage
 
- O programa vem com uma função de demonstração que pode ser acessada executando o arquivo Parser. 
- 
- A função processa os arquivos pddl na pasta "/test/", que podem ser modificados, imprime as estruturas internas para o terminal, e gera um relatório LaTeX da aplicação do plano para o arquivo "out".
+ The program comes with a demo function that can be executed by running the Parser file.
 
-Para os demais usos é necessário a implementação das funções internas em um novo programa. 
+ The function parses the pddl files located within the "/test/" folder, prints the internal data structures and the execution of the plan to the terminal, and outputs a LaTeX report to the "out" file. The pddl files can be modified. 
 
-### [Guia rápido](https://github.com/smart-pucrs/PDDL-plan-validator/wiki/Guia-R%C3%A1pido)
+For other use cases it's necessary to use the internal functions to parse and validade pddl files. 
+
+### [Quick Start](https://github.com/smart-pucrs/PDDL-plan-validator/wiki/Quick-Start)
