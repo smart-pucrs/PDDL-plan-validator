@@ -1,6 +1,8 @@
 yacc.*
 *.class
 Yylex.java~
+out
+y.output
 # Ignore Gradle project-specific cache directory
 .gradle
 

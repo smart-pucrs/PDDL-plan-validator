@@ -619,10 +619,10 @@ final static String yyrule[] = {
 		parseProblem(pddl, "test\\problem.pddl");
 		parsePlan(pddl, "test\\plan.pddl");
 		if(!pddl.checkA()){
-			//pddl.PrintTest2();
 			System.out.println("__________________________");
+			pddl.planTest();
+			pddl.resetState();
 			pddl.valOut("out");
-			//pddl.planTest();
 		}
 	}
 //#line 557 "Parser.java"

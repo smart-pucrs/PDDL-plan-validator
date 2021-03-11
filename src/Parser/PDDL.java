@@ -118,6 +118,11 @@ public class PDDL{
 		negGoals.add(goal);
 	}
 		
+	public void resetState(){
+		state = new ArrayList<String[]>();
+		for(String[] pred : iState) state.add(pred);
+	}		
+	
 	public boolean goalAchieved(){		
 		boolean found = false;
 		for(String[] goal : posGoals){
@@ -194,9 +199,14 @@ public class PDDL{
 	//true = return null
 	//invalid parameters = return Object[0]
 	//false = return missing req/ present neg req 
-	public Object[] tryAct(){
-		String[] next = plan.remove(0);
+	public Object[] tryAct(int action, boolean print){
+		String[] next = plan.get(action);
 		Act act = acts.get(next[0]);
+		if(print){
+			System.out.print("Action ( ");
+			for(String s : next) System.out.print(s + " ");
+			System.out.println(" )");
+		}
 		String[] pars =  new String[next.length-1];
 		int[] parTs =  new int[next.length-1];		
 		for(int i = 0; i < pars.length; i++) pars[i] = next[i+1];
@@ -214,10 +224,10 @@ public class PDDL{
 		return null;
 	}
 	
-	public Object[] tryPlan(){
+	public Object[] tryPlan(boolean print){
 		Object[] resp = null;
-		for(int pLen = plan.size(); pLen > 0; pLen--){
-			resp = tryAct();
+		for(int pLen = 0; pLen < plan.size(); pLen++){
+			resp = tryAct(pLen, print);
 			if(resp != null) return resp;
 		}
 		return resp;
@@ -487,7 +497,7 @@ public class PDDL{
 	
 	
 	public void planTest(){
-		Object[] out = tryPlan();
+		Object[] out = tryPlan(true);
 		if(out != null){
 			System.out.print("Error in action \"( " );
 			for(String s : (String[])out[0]) System.out.print(s + " ");
