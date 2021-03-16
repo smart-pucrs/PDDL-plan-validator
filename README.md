@@ -1,5 +1,5 @@
 # PDDL-plan-validator
-Java PDDL parser/validator [[PT-BR]](https://github.com/smart-pucrs/PDDL-plan-validator/wiki/%5Bpt-br%5D)
+Java PDDL parser and validator [[PT-BR]](https://github.com/smart-pucrs/PDDL-plan-validator/wiki/%5Bpt-br%5D)
 
 ## Compiling  
 
