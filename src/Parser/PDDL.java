@@ -12,10 +12,6 @@ import java.io.File;
 
 public class PDDL{	
 	
-
-	public boolean bt(){
-		return true;
-	}
 	/****************************************************
 	* 			DOMAIN
 	****************************************************/
@@ -84,6 +80,7 @@ public class PDDL{
 		negGoals = new ArrayList<String[]>();
 		plan = new ArrayList<String[]>();
 		state = new ArrayList<String[]>();
+		iState = new ArrayList<String[]>();
 	}
 	public void iniState(List<String[]> state){
 		this.state = state;
@@ -529,7 +526,7 @@ public class PDDL{
 	}
 		
 	
-	public void printTest(){
+	public void printDomain(){
 		System.out.println("_______________________\nDOMAIN " + domain);
 		System.out.println("requirements");
 		for(String r : reqs)System.out.println("\t" + r);
@@ -544,7 +541,7 @@ public class PDDL{
 		if(preds != null) for(Pred p : preds)System.out.println("\t" + p);
 	}
 	
-	public void PrintTest2(){
+	public void printProbPl(){
 		System.out.println("NAME---------------");
 		System.out.println(problem);
 		System.out.println("OBJS---------------");
@@ -581,7 +578,7 @@ public class PDDL{
 		System.out.println("\n");
 	}
 	
-	public void test(){
+	public void printState(){
 		System.out.println("STATE---------------");
 		for(String[] pred : state){
 			for(String p : pred) System.out.print(p + " ");
@@ -683,7 +680,7 @@ class Act{
 	//returns false preconditions
 	public Object[] reason(List<String[]> worldState, String[] parameters, int[] types, List<Integer> sTypes, boolean[] rFlags){		
 		if(parameters.length != pars.size()) return new Object[0];
-		for(int i = 0; i < types.length; i++) if(types[i] != parTs[i] && sTypes.get(i) != parTs[i]) return new Object[0];
+		if(rFlags[1]) for(int i = 0; i < types.length; i++) if(types[i] != parTs[i] && sTypes.get(i) != parTs[i]) return new Object[0];
 		if(rFlags[0]){
 			return reason1(worldState, parameters);
 		}
@@ -741,30 +738,31 @@ class Act{
 						if(pP[0].equals(worldState.get(i)[0])) negativeR.add(pP);
 					}
 				}
-			}
-			//orded predicate objects
-			String[] pars = new String[pP.length-1]; 
-			for(int i = 1; i < pP.length; i++) pars[i-1] = parameters[this.pars.indexOf(pP[i])];
-			
-			boolean found = true;
-			for(int i = 0; i < worldState.size(); i++){
-				if(worldState.get(i).length == pP.length){
-					if(pP[0].equals(worldState.get(i)[0])){
-						for(int j = 0; j < pP.length-1; j++){
-							if(!worldState.get(i)[j+1].equals(pars[j])){
-								found = false;
-								break;
+			}else{
+				//orded predicate objects
+				String[] pars = new String[pP.length-1]; 
+				for(int i = 1; i < pP.length; i++) pars[i-1] = parameters[this.pars.indexOf(pP[i])];
+				
+				boolean found = true;
+				for(int i = 0; i < worldState.size(); i++){
+					if(worldState.get(i).length == pP.length){
+						if(pP[0].equals(worldState.get(i)[0])){
+							for(int j = 0; j < pP.length-1; j++){
+								if(!worldState.get(i)[j+1].equals(pars[j])){
+									found = false;
+									break;
+								}
 							}
+							if(found) break;
 						}
-						if(found) break;
 					}
 				}
+				if(!found) continue;
+				String[] aux = new String[pP.length];
+				aux[0] = pP[0];
+				for(int i = 0; i < pars.length; i++) aux[i+1] = pars[i];
+				negativeR.add(aux);
 			}
-			if(!found) continue;
-			String[] aux = new String[pP.length];
-			aux[0] = pP[0];
-			for(int i = 0; i < pars.length; i++) aux[i+1] = pars[i];
-			negativeR.add(aux);
 		}	
 		rList[0] = positiveR;
 		rList[1] = negativeR;
@@ -834,43 +832,44 @@ class Act{
 						if(pP[0].equals(worldState.get(i)[0])) negativeR.add(pP);
 					}
 				}
-			}
-			//orded predicate objects
-			String[] pars = new String[pP.length-1]; 
-			for(int i = 1; i < pP.length; i++) pars[i-1] = parameters[this.pars.indexOf(pP[i])];
-			
-			//equals 
-			if(pP[0].equals("=")){
-				for(int i = 0; i < pars.length-1; i++){
-					if(pars[i].equals(pars[i+1])){
-						String[] aux = new String[pP.length];
-						aux[0] = pP[0];
-						for(int j = 0; j < pars.length; j++) aux[j+1] = pars[j];
-						negativeR.add(aux);
-						break;
-					}
-				}
-				continue;
-			}
-			boolean found = true;
-			for(int i = 0; i < worldState.size(); i++){
-				if(worldState.get(i).length == pP.length){
-					if(pP[0].equals(worldState.get(i)[0])){
-						for(int j = 0; j < pP.length-1; j++){
-							if(!worldState.get(i)[j+1].equals(pars[j])){
-								found = false;
-								break;
-							}
+			}else{
+				//orded predicate objects
+				String[] pars = new String[pP.length-1]; 
+				for(int i = 1; i < pP.length; i++) pars[i-1] = parameters[this.pars.indexOf(pP[i])];
+				
+				//equals 
+				if(pP[0].equals("=")){
+					for(int i = 0; i < pars.length-1; i++){
+						if(pars[i].equals(pars[i+1])){
+							String[] aux = new String[pP.length];
+							aux[0] = pP[0];
+							for(int j = 0; j < pars.length; j++) aux[j+1] = pars[j];
+							negativeR.add(aux);
+							break;
 						}
-						if(found) break;
+					}
+					continue;
+				}
+				boolean found = true;
+				for(int i = 0; i < worldState.size(); i++){
+					if(worldState.get(i).length == pP.length){
+						if(pP[0].equals(worldState.get(i)[0])){
+							for(int j = 0; j < pP.length-1; j++){
+								if(!worldState.get(i)[j+1].equals(pars[j])){
+									found = false;
+									break;
+								}
+							}
+							if(found) break;
+						}
 					}
 				}
+				if(!found) continue;
+				String[] aux = new String[pP.length];
+				aux[0] = pP[0];
+				for(int i = 0; i < pars.length; i++) aux[i+1] = pars[i];
+				negativeR.add(aux);
 			}
-			if(!found) continue;
-			String[] aux = new String[pP.length];
-			aux[0] = pP[0];
-			for(int i = 0; i < pars.length; i++) aux[i+1] = pars[i];
-			negativeR.add(aux);
 		}	
 		rList[0] = positiveR;
 		rList[1] = negativeR;

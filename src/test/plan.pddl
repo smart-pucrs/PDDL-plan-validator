@@ -1,0 +1,1 @@
+(action1 object1 object2)

@@ -3,12 +3,90 @@
  */
 package PARSER;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ParserTest {
-    @Test public void testSomeLibraryMethod() {
-        PDDL pddl = new PDDL("test");
-        assertTrue("someLibraryMethod should return 'true'", pddl.bt());
+    @Test public void goalAchievedTest() {
+        PDDL test = new PDDL("test");
+		test.problem("testP");
+		ArrayList list = new ArrayList<String[]>();
+		test.iniState(list);
+		
+		test.addPosGoal("true".split(" "));
+        assertFalse("Positive goal not in state, false", test.goalAchieved());
+		
+		list.add("true".split(" "));
+		test.iniState(list);
+        assertTrue("Positive goal in state, true", test.goalAchieved());
+		
+		test.addNegGoal("false".split(" "));
+        assertTrue("Negative goal not in state, true", test.goalAchieved());
+		
+		list.add("false".split(" "));
+		test.iniState(list);
+        assertFalse("Negative goal in state, false", test.goalAchieved());
     }
+	
+	
+	@Test public void readTest(){
+		PDDL test = Parser.parseDomain(".\\src\\test\\domain.pddl");
+		Parser.parseProblem(test, ".\\src\\test\\problem.pddl");
+		Parser.parsePlan(test, ".\\src\\test\\plan.pddl");
+		assertEquals(null, test.tryPlan(false));
+		assertTrue(test.goalAchieved());
+	}
+	
+	
+	@Test public void actionTests(){		
+		boolean[] truetrue = {true,true};
+		
+		ArrayList<String[]> state = new ArrayList<String[]>();		
+		ArrayList pPre = new ArrayList<String[]>();
+		pPre.add("true".split(" "));		
+		ArrayList nPre = new ArrayList<String[]>();
+		nPre.add("false".split(" "));		
+		ArrayList pEff = new ArrayList<String[]>();
+		pEff.add("false".split(" "));		
+		ArrayList nEff = new ArrayList<String[]>();
+		nEff.add("true".split(" "));			
+		Act test = new Act("test", new ArrayList<String>(), pPre, nPre, pEff, nEff);
+		
+		assertFalse("wrong parameter size", test.applicable(state, new String[1], null, null, new boolean[2]));
+		Object[] result = test.reason(state, new String[1], null, null, new boolean[2]);
+		assertEquals(new Object[0], result);
+		
+		assertFalse("true not in state", test.applicable(state, new String[0], null, null, new boolean[2]));
+		result = test.reason(state, new String[0], null, null, new boolean[2]);
+		assertEquals("true", ((ArrayList<String[]>)(result[0])).get(0)[0]);
+		assertEquals(0, ((ArrayList<String[]>)(result[1])).size());
+		//typed
+		assertFalse("true not in state - t", test.applicable(state, new String[0], new int[0], null, truetrue));
+		result = test.reason(state, new String[0], new int[0], null, truetrue);
+		assertEquals("true", ((ArrayList<String[]>)(result[0])).get(0)[0]);
+		assertEquals(0, ((ArrayList<String[]>)(result[1])).size());
+		
+		state.add("true".split(" "));
+		state.add("false".split(" "));
+		assertFalse("false in state", test.applicable(state, new String[0], null, null, new boolean[2]));	
+		result = test.reason(state, new String[0], null, null, new boolean[2]);
+		assertEquals(0, ((ArrayList<String[]>)(result[0])).size());
+		assertEquals("false", ((ArrayList<String[]>)(result[1])).get(0)[0]);
+		//typed
+		assertFalse("false in state - t", test.applicable(state, new String[0], new int[0], null, truetrue));
+		result = test.reason(state, new String[0], new int[0], null, truetrue);
+		assertEquals(0, ((ArrayList<String[]>)(result[0])).size());
+		assertEquals("false", ((ArrayList<String[]>)(result[1])).get(0)[0]);
+		
+		state.remove(1);
+		assertTrue("correct preconditions", test.applicable(state, new String[0], null, null, new boolean[2]));		
+		//typed
+		assertTrue("correct preconditions - t", test.applicable(state, new String[0], new int[0], null, truetrue));
+		
+		state = (ArrayList<String[]>)test.apply(state, new String[0]);
+		assertEquals(1, state.size());
+		assertEquals("false", state.get(0)[0]);
+	}
 }

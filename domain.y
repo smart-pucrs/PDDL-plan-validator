@@ -286,7 +286,7 @@ effObj: OBJ				{$$ = $1;}
 
 	public static void main(String args[]) throws IOException {
 		pddl = parseDomain("test\\domain.pddl");
-		pddl.printTest();
+		pddl.printDomain();
 		parseProblem(pddl, "test\\problem.pddl");
 		parsePlan(pddl, "test\\plan.pddl");
 		if(!pddl.checkA()){
