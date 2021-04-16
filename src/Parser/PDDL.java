@@ -223,7 +223,9 @@ public class PDDL{
 	
 	public Object[] tryPlan(boolean print){
 		Object[] resp = null;
+		//TEMP
 		for(int pLen = 0; pLen < plan.size(); pLen++){
+			printState();
 			resp = tryAct(pLen, print);
 			if(resp != null) return resp;
 		}
@@ -743,10 +745,11 @@ class Act{
 				String[] pars = new String[pP.length-1]; 
 				for(int i = 1; i < pP.length; i++) pars[i-1] = parameters[this.pars.indexOf(pP[i])];
 				
-				boolean found = true;
+				boolean found = false;
 				for(int i = 0; i < worldState.size(); i++){
 					if(worldState.get(i).length == pP.length){
 						if(pP[0].equals(worldState.get(i)[0])){
+							found = true;
 							for(int j = 0; j < pP.length-1; j++){
 								if(!worldState.get(i)[j+1].equals(pars[j])){
 									found = false;
@@ -836,7 +839,6 @@ class Act{
 				//orded predicate objects
 				String[] pars = new String[pP.length-1]; 
 				for(int i = 1; i < pP.length; i++) pars[i-1] = parameters[this.pars.indexOf(pP[i])];
-				
 				//equals 
 				if(pP[0].equals("=")){
 					for(int i = 0; i < pars.length-1; i++){
@@ -850,10 +852,11 @@ class Act{
 					}
 					continue;
 				}
-				boolean found = true;
+				boolean found = false;
 				for(int i = 0; i < worldState.size(); i++){
 					if(worldState.get(i).length == pP.length){
 						if(pP[0].equals(worldState.get(i)[0])){
+							found = true;
 							for(int j = 0; j < pP.length-1; j++){
 								if(!worldState.get(i)[j+1].equals(pars[j])){
 									found = false;
