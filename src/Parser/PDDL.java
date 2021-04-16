@@ -225,7 +225,6 @@ public class PDDL{
 		Object[] resp = null;
 		//TEMP
 		for(int pLen = 0; pLen < plan.size(); pLen++){
-			printState();
 			resp = tryAct(pLen, print);
 			if(resp != null) return resp;
 		}
